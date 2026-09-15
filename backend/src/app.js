@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const songRoutes = require("./routes/songRoutes");
+const notFound = require("./middleware/notFound");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
@@ -14,5 +16,8 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 app.use("/api/v1/songs", songRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
