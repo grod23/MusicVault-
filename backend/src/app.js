@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const songRoutes = require("./routes/songRoutes");
 
 const app = express();
 
@@ -11,5 +12,7 @@ app.get("/api/v1/health", (req, res) => {
     status: "ok",
   });
 });
+
+app.use("/api/v1/songs", songRoutes);
 
 module.exports = app;
