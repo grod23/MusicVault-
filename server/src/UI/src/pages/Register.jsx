@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "../lib/supabase";
 
 function Register({ goToLogin }) {
   const [username, setUsername] = useState("");
@@ -7,7 +8,7 @@ function Register({ goToLogin }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  function handleRegister() {
+  async function handleRegister() {
     if (!username || !email || !password || !confirmPassword) {
       setMessage("Please fill out all fields.");
       return;
@@ -17,6 +18,35 @@ function Register({ goToLogin }) {
       setMessage("Passwords do not match.");
       return;
     }
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      setMessage(error.message);
+      return;
+    }
+
+    if (!data.user) {
+      setMessage("Unable to create user.");
+      return;
+    }
+
+    const { error: profileError } = await supabase
+      .from("Music Vault")
+      .insert({
+        id: data.user.id,
+        username,
+      });
+
+    if (profileError) {
+      setMessage(profileError.message);
+      return;
+    }
+
+    setMessage("Account created successfully.");
   }
 
   return (
