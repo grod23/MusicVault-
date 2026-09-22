@@ -1,9 +1,8 @@
-import test from "node:test";
-import assert from "node:assert/strict";
+const assert = require("node:assert/strict");
 
-import {
+const {
   validateRegistration
-} from "../src/authentication/validateUser.js";
+} = require("../src/authentication/validateUser.js");
 
 
 function createRequest(body) {
