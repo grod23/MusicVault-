@@ -1,7 +1,4 @@
-/*App.jsx*/
-import "./App.css";
-
-function App() {
+function Login({ goToRegister }) {
   return (
     <div className="page">
       <div className="login-card">
@@ -10,7 +7,8 @@ function App() {
 
         <h1>Music Vault</h1>
         <p className="subtitle">Music for You</p>
-{/* Email input */}
+
+        {/* Email Input */}
         <div className="input-box">
           <span>✉</span>
           <input
@@ -18,7 +16,8 @@ function App() {
             placeholder="Email"
           />
         </div>
-{/* Password Input */}
+
+        {/* Password Input */}
         <div className="input-box">
           <span>🔒</span>
           <input
@@ -26,23 +25,29 @@ function App() {
             placeholder="Password"
           />
         </div>
-{/* Remember Login */}
+
+        {/* Remember Login / Forgot Password */}
         <div className="options">
           <label>
             <input type="checkbox" />
             Remember me
           </label>
-{/* Forgot Password */}
+
           <button className="forgot-button">
             Forgot password?
           </button>
         </div>
 
+        {/* Login Button */}
         <button className="login-button">
           Login
         </button>
 
-        <button className="register-button">
+        {/* Register Button */}
+        <button
+          className="register-button"
+          onClick={goToRegister}
+        >
           Register
         </button>
 
@@ -51,4 +56,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;
