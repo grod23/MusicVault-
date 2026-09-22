@@ -1,3 +1,4 @@
+/*Forgotpassword.jsx*/
 import { useState } from "react";
 
 function ForgotPassword({ goToLogin }) {
