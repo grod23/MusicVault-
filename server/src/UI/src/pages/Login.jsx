@@ -1,4 +1,4 @@
-function Login({ goToRegister }) {
+function Login({ goToRegister, goToForgotPassword }) {
   return (
     <div className="page">
       <div className="login-card">
@@ -33,7 +33,9 @@ function Login({ goToRegister }) {
             Remember me
           </label>
 
-          <button className="forgot-button">
+          <button 
+          className="forgot-button" 
+          onClick={goToForgotPassword}>
             Forgot password?
           </button>
         </div>
