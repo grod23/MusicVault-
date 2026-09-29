@@ -1,11 +1,12 @@
 const crypto = require("crypto");
 
+const {
+  exchangeCodeForTokens
+} = require("../services/spotifyService");
+
 function redirectToSpotify(req, res) {
   const state = crypto.randomBytes(16).toString("hex");
 
-  // Temporary for now.
-  // Later we should store this in the user's session and verify it
-  // when Spotify redirects back.
   const scopes = [
     "user-read-private",
     "user-read-email"
@@ -16,7 +17,7 @@ function redirectToSpotify(req, res) {
     response_type: "code",
     redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     scope: scopes,
-    state: state
+    state
   });
 
   const spotifyAuthorizationUrl =
@@ -25,8 +26,8 @@ function redirectToSpotify(req, res) {
   return res.redirect(spotifyAuthorizationUrl);
 }
 
-function spotifyCallback(req, res) {
-  const { code, state, error } = req.query;
+async function spotifyCallback(req, res) {
+  const { code, error } = req.query;
 
   if (error) {
     return res.status(400).json({
@@ -42,12 +43,23 @@ function spotifyCallback(req, res) {
     });
   }
 
-  return res.status(200).json({
-    success: true,
-    message: "Spotify authorization callback received",
-    code,
-    state
-  });
+  try {
+    const tokenData = await exchangeCodeForTokens(code);
+
+    return res.status(200).json({
+      success: true,
+      message: "Spotify authentication successful",
+      expiresIn: tokenData.expires_in
+    });
+
+  } catch (error) {
+    console.error("Spotify token exchange failed:", error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Spotify token exchange failed"
+    });
+  }
 }
 
 module.exports = {

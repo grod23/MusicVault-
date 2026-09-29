@@ -9,14 +9,16 @@ async function startServer() {
   try {
     await pool.query("SELECT 1");
     console.log("Connected to PostgreSQL database");
-
-    app.listen(PORT, () => {
-      console.log(`MusicVault backend running on port ${PORT}`);
-    });
   } catch (error) {
-    console.error("Database connection failed:", error.message);
-    process.exit(1);
+    console.warn(
+      "Database unavailable. Starting server without database connection:",
+      error.message
+    );
   }
+
+  app.listen(PORT, () => {
+    console.log(`MusicVault backend running on port ${PORT}`);
+  });
 }
 
 startServer();
