@@ -34,7 +34,21 @@ async function getSongById(req, res, next) {
   }
 }
 
+async function getGlobalTop100(req, res, next) {
+  try {
+    const songs = await songService.getGlobalTop100();
+
+    res.status(200).json({
+      songs,
+      total: songs.length,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getSongs,
   getSongById,
+  getGlobalTop100,
 };

@@ -189,4 +189,41 @@ describe("Song API", () => {
       error: "Song not found",
     });
   });
+
+  test("GET /api/v1/songs/top100 returns ranked songs", async () => {
+    pool.query.mockResolvedValueOnce({
+      rows: [
+        {
+          rank: 1,
+          id: 10,
+          title: "Top Song",
+          artist: "Top Artist",
+          album: "Top Album",
+          genre: "Pop",
+          mood: "Happy",
+          tempo: 120,
+          audio_url: "/audio/top-song.mp3",
+        },
+        {
+          rank: 2,
+          id: 11,
+          title: "Second Song",
+          artist: "Second Artist",
+          album: "Second Album",
+          genre: "Rock",
+          mood: "Energetic",
+          tempo: 130,
+          audio_url: "/audio/second-song.mp3",
+        },
+      ],
+    });
+
+    const response = await request(app).get("/api/v1/songs/top100");
+
+    expect(response.status).toBe(200);
+    expect(response.body.total).toBe(2);
+    expect(response.body.songs).toHaveLength(2);
+    expect(response.body.songs[0].rank).toBe(1);
+    expect(response.body.songs[1].rank).toBe(2);
+  });
 });
