@@ -58,13 +58,13 @@ jobs:
           node-version: 20
 
       - name: Install frontend dependencies
-        working-directory: frontend
+        working-directory: frontend/UI
         run: npm ci
 
       - name: Run frontend lint
-        working-directory: frontend
+        working-directory: frontend/UI
         run: npm run lint
 
       - name: Build frontend
-        working-directory: frontend
+        working-directory: frontend/UI
         run: npm run build
