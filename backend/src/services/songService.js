@@ -106,7 +106,29 @@ async function getSongById(songId) {
   return result.rows[0] || null;
 }
 
+async function getGlobalTop100() {
+  const result = await pool.query(`
+    SELECT
+      gt.rank,
+      s.id,
+      s.title,
+      s.artist,
+      s.album,
+      s.genre,
+      s.mood,
+      s.tempo,
+      s.audio_url
+    FROM global_top_100 gt
+    JOIN songs s ON gt.song_id = s.id
+    ORDER BY gt.rank ASC
+    LIMIT 100
+  `);
+
+  return result.rows;
+}
+
 module.exports = {
   getSongs,
   getSongById,
+  getGlobalTop100,
 };
