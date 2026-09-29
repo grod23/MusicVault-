@@ -1,13 +1,22 @@
-/*App.jsx*/
+/* App.jsx */
 import { useState } from "react";
 import "./App.css";
 
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
-  const [page, setPage] = useState("login");
+  const [page, setPage] = useState("home");
+
+  if (page === "home") {
+    return (
+      <Home
+        goToLogin={() => setPage("login")}
+      />
+    );
+  }
 
   if (page === "register") {
     return (
@@ -17,7 +26,7 @@ function App() {
     );
   }
 
-    if (page === "forgot-password") {
+  if (page === "forgot-password") {
     return (
       <ForgotPassword
         goToLogin={() => setPage("login")}
