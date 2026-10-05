@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const songRoutes = require("./routes/songRoutes");
 const spotifyAuthRoutes = require("./routes/spotifyAuthRoutes");
+const userRoutes = require("./routes/userRoutes");
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
 
@@ -17,6 +18,7 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 app.use("/api/v1/songs", songRoutes);
+app.use("/api/v1/users", userRoutes);
 app.use("/api/auth/spotify", spotifyAuthRoutes);
 
 app.use(notFound);
