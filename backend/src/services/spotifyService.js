@@ -63,7 +63,28 @@ async function getTopTracks(
 }
 
 
+async function getTop100Tracks(accessToken) {
+  const firstPage = await getTopTracks(
+    accessToken,
+    50,
+    0
+  );
+
+  const secondPage = await getTopTracks(
+    accessToken,
+    50,
+    50
+  );
+
+  return [
+    ...(firstPage.items || []),
+    ...(secondPage.items || [])
+  ];
+}
+
+
 module.exports = {
   exchangeCodeForTokens,
-  getTopTracks
+  getTopTracks,
+  getTop100Tracks
 };
