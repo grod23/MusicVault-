@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, test, expect, vi } from "vitest";
-import Register from "./Register";
+import Register from "../pages/Register.jsx";
 
 vi.mock("../lib/supabase", () => ({
   supabase: {
