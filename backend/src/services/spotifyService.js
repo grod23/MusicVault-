@@ -6,17 +6,23 @@ async function exchangeCodeForTokens(code) {
   const body = new URLSearchParams({
     grant_type: "authorization_code",
     code,
-    redirect_uri: process.env.SPOTIFY_REDIRECT_URI
+    redirect_uri:
+      process.env.SPOTIFY_REDIRECT_URI
   });
 
   const response = await fetch(
     "https://accounts.spotify.com/api/token",
     {
       method: "POST",
+
       headers: {
-        Authorization: `Basic ${credentials}`,
-        "Content-Type": "application/x-www-form-urlencoded"
+        Authorization:
+          `Basic ${credentials}`,
+
+        "Content-Type":
+          "application/x-www-form-urlencoded"
       },
+
       body
     }
   );
@@ -29,7 +35,6 @@ async function exchangeCodeForTokens(code) {
 
   return response.json();
 }
-
 
 async function getTopTracks(
   accessToken,
@@ -46,6 +51,7 @@ async function getTopTracks(
     `https://api.spotify.com/v1/me/top/tracks?${params}`,
     {
       method: "GET",
+
       headers: {
         Authorization:
           `Bearer ${accessToken}`
@@ -62,26 +68,26 @@ async function getTopTracks(
   return response.json();
 }
 
-
 async function getTop100Tracks(accessToken) {
-  const firstPage = await getTopTracks(
-    accessToken,
-    50,
-    0
-  );
+  const firstPage =
+    await getTopTracks(
+      accessToken,
+      50,
+      0
+    );
 
-  const secondPage = await getTopTracks(
-    accessToken,
-    50,
-    50
-  );
+  const secondPage =
+    await getTopTracks(
+      accessToken,
+      50,
+      50
+    );
 
   return [
     ...(firstPage.items || []),
     ...(secondPage.items || [])
   ];
 }
-
 
 module.exports = {
   exchangeCodeForTokens,
