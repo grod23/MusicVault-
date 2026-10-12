@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - sprint3-recommendation-integration
 
 jobs:
   test-and-build:
@@ -72,3 +73,27 @@ jobs:
       - name: Build frontend
         working-directory: frontend/UI
         run: npm run build
+
+  # Recommendation Engine
+
+  recommendation-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: recommendation-engine/requirements-dev.txt
+
+      - name: Install Python dependencies
+        working-directory: recommendation-engine
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Run Python recommendation tests
+        working-directory: recommendation-engine
+        run: python -m pytest -v
