@@ -4,7 +4,7 @@ function Header() {
   return (
     <header className="dashboard-header">
       <div className="header-logo">
-        <h2>MusicVault</h2>
+        <h2>Music Vault</h2>
       </div>
 
       <div className="header-search">

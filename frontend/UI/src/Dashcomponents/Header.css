@@ -6,7 +6,7 @@
   min-height: 70px;
   padding: 0 24px;
   box-sizing: border-box;
-  background-color: #121212;
+  background: #090912;
   color: white;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .header-logo h2 {
-  color: #1ed760;
+  color: #8b5cf6;
   font-size: 24px;
   margin: 0;
 }
@@ -27,19 +27,21 @@
   width: 100%;
   max-width: 450px;
   padding: 12px 16px;
+  border: 1px solid #5942c7;
   border-radius: 30px;
-  background-color: #242424;
+  background: rgba(30, 27, 65, 0.8);
   box-sizing: border-box;
 }
 
 .search-icon {
   margin-right: 12px;
   font-size: 22px;
-  color: #b3b3b3;
+  color: #aaa5d8;
 }
 
 .header-search input {
   width: 100%;
+  min-width: 0;
   background: transparent;
   border: none;
   outline: none;
@@ -48,11 +50,11 @@
 }
 
 .header-search input::placeholder {
-  color: #b3b3b3;
+  color: #aaa5c5;
 }
 
 .header-search:focus-within {
-  outline: 2px solid #1ed760;
+  outline: 2px solid #a56cff;
 }
 
 .header-profile {
@@ -60,16 +62,17 @@
 }
 
 .header-profile button {
-  background-color: #242424;
-  border: none;
+  background: #1e1b41;
+  border: 1px solid #5942c7;
   border-radius: 50%;
   width: 42px;
   height: 42px;
-  color: white;
+  color: #a56cff;
   font-size: 20px;
   cursor: pointer;
 }
 
 .header-profile button:hover {
-  background-color: #333333;
+  background: #38246f;
+  color: white;
 }
