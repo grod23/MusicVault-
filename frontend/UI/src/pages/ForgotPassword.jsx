@@ -13,7 +13,6 @@ function ForgotPassword({ goToLogin }) {
 
     setMessage("Password reset link sent!");
 
-    // Later:
     // Connect this to Supabase password reset
   }
 
