@@ -1,4 +1,4 @@
-function Login({ goToRegister, goToForgotPassword }) {
+function Login({ goToRegister, goToForgotPassword, goToDashboard }) {
   return (
     <div className="page">
       <div className="login-card">
@@ -41,7 +41,10 @@ function Login({ goToRegister, goToForgotPassword }) {
         </div>
 
         {/* Login Button */}
-        <button className="login-button">
+        <button 
+          className="login-button"
+          onClick={goToDashboard}
+        >
           Login
         </button>
 
