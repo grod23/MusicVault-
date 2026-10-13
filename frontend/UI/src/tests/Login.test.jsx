@@ -1,7 +1,15 @@
 import "@testing-library/jest-dom/vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import Login from "../pages/Login.jsx";
+
+vi.mock("../lib/supabase", () => ({
+  supabase: {
+    auth: {
+      signInWithPassword: vi.fn(),
+    },
+  },
+}));
 
 afterEach(() => {
   cleanup();
