@@ -82,6 +82,66 @@ describe("Register page", () => {
     expect(supabase.auth.signUp).not.toHaveBeenCalled();
   });
 
+  test("successfully registers a user and creates a profile", async () => {
+  const testUserId = "123e4567-e89b-42d3-a456-426614174000";
+
+  vi.mocked(supabase.auth.signUp).mockResolvedValueOnce({
+    data: {
+      user: { id: testUserId },
+      session: { access_token: "mock-token" },
+    },
+    error: null,
+  });
+
+  const insertMock = vi.fn().mockResolvedValue({
+    error: null,
+  });
+
+  vi.mocked(supabase.from).mockReturnValueOnce({
+    insert: insertMock,
+  });
+
+  render(<Register goToLogin={() => {}} />);
+
+  fireEvent.change(screen.getByPlaceholderText("Username"), {
+    target: { value: "testuser" },
+  });
+
+  fireEvent.change(screen.getByPlaceholderText("Email"), {
+    target: { value: "test@example.com" },
+  });
+
+  fireEvent.change(screen.getByPlaceholderText("Password"), {
+    target: { value: "Password123" },
+  });
+
+  fireEvent.change(screen.getByPlaceholderText("Confirm Password"), {
+    target: { value: "Password123" },
+  });
+
+  fireEvent.click(
+    screen.getByRole("button", {
+      name: /create account/i,
+    })
+  );
+
+  expect(
+    await screen.findByText("Account created successfully!")
+  ).toBeTruthy();
+
+  expect(supabase.auth.signUp).toHaveBeenCalledWith({
+    email: "test@example.com",
+    password: "Password123",
+  });
+
+  expect(supabase.from).toHaveBeenCalledWith("Music Vault");
+
+  expect(insertMock).toHaveBeenCalledWith({
+    id: testUserId,
+    username: "testuser",
+  });
+});
+
   // Test 3: Supabase registration failure
   test("shows an error when Supabase registration fails", async () => {
     vi.mocked(supabase.auth.signUp).mockResolvedValueOnce({
