@@ -6,9 +6,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 
 function App() {
-  const [page, setPage] = useState("login");
+  const [page, setPage] = useState("home");
+  
+    if (page === "home") {
+    return (
+      <Home
+        goToLogin={() => setPage("login")}
+      />
+    );
+  }
 
   if (page === "register") {
     return (
