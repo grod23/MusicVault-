@@ -1,4 +1,41 @@
+import { useState } from "react";
+import { supabase } from "../lib/supabase";
+
 function Login({ goToRegister, goToForgotPassword, goToDashboard }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin() {
+  if (!email.trim() || !password) {
+    setMessage("Please enter your email and password.");
+    return;
+  }
+
+  setLoading(true);
+  setMessage("");
+
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+
+    if (error) {
+      setMessage(error.message);
+      return;
+    }
+
+    goToDashboard();
+  } catch (error) {
+    setMessage("Unable to log in. Please try again.");
+    console.error("Login error:", error);
+  } finally {
+    setLoading(false);
+  }
+}
+
   return (
     <div className="page">
       <div className="login-card">
@@ -11,9 +48,11 @@ function Login({ goToRegister, goToForgotPassword, goToDashboard }) {
         {/* Email Input */}
         <div className="input-box">
           <span>✉</span>
-          <input
-            type="email"
-            placeholder="Email"
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           />
         </div>
 
@@ -23,6 +62,8 @@ function Login({ goToRegister, goToForgotPassword, goToDashboard }) {
           <input
             type="password"
             placeholder="Password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
 
@@ -41,12 +82,14 @@ function Login({ goToRegister, goToForgotPassword, goToDashboard }) {
         </div>
 
         {/* Login Button */}
-        <button 
+        <button
           className="login-button"
-          onClick={goToDashboard}
+          onClick={handleLogin}
+          disabled={loading}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
+        {message && <p className="form-message" role="alert">{message}</p>}
 
         {/* Register Button */}
         <button
