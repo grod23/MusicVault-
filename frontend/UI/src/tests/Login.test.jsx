@@ -1,7 +1,11 @@
 import "@testing-library/jest-dom/vitest";
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { describe, it, expect, afterEach } from "vitest";
 import Login from "../pages/Login.jsx";
+
+afterEach(() => {
+  cleanup();
+});
 
 describe("Login Page Rendering", () => {
   it("renders the main login elements", () => {
@@ -30,5 +34,39 @@ describe("Login Page Rendering", () => {
     expect(
       screen.getByText(/register/i)
     ).toBeInTheDocument();
+  });
+});
+
+describe("Login Page User Input", () => {
+  it("allows users to type an email", () => {
+    render(<Login />);
+
+    const emailInput = screen.getByPlaceholderText(/email/i);
+
+    fireEvent.change(emailInput, {
+      target: { value: "test@example.com" }
+    });
+
+    expect(emailInput).toHaveValue("test@example.com");
+  });
+
+  it("allows users to type a password", () => {
+    render(<Login />);
+
+    const passwordInput = screen.getByPlaceholderText(/password/i);
+
+    fireEvent.change(passwordInput, {
+      target: { value: "password123" }
+    });
+
+    expect(passwordInput).toHaveValue("password123");
+  });
+
+  it("hides password input by default", () => {
+    render(<Login />);
+
+    const passwordInput = screen.getByPlaceholderText(/password/i);
+
+    expect(passwordInput).toHaveAttribute("type", "password");
   });
 });
