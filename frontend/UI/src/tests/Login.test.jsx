@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import Login from "../pages/Login.jsx";
 
 afterEach(() => {
@@ -68,5 +68,33 @@ describe("Login Page User Input", () => {
     const passwordInput = screen.getByPlaceholderText(/password/i);
 
     expect(passwordInput).toHaveAttribute("type", "password");
+  });
+});
+
+describe("Login Page Navigation", () => {
+  it("navigates to Register when Register is clicked", () => {
+    const goToRegister = vi.fn();
+
+    render(<Login goToRegister={goToRegister} />);
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /register/i })
+    );
+
+    expect(goToRegister).toHaveBeenCalledOnce();
+  });
+
+  it("navigates to Forgot Password when clicked", () => {
+    const goToForgotPassword = vi.fn();
+
+    render(
+      <Login goToForgotPassword={goToForgotPassword} />
+    );
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /forgot password/i })
+    );
+
+    expect(goToForgotPassword).toHaveBeenCalledOnce();
   });
 });
