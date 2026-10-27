@@ -1,3 +1,4 @@
+
 const pool = require("../config/database");
 
 async function getRecommendations({
@@ -5,51 +6,55 @@ async function getRecommendations({
   mood,
   limit = 10,
 } = {}) {
-  const conditions = [];
-  const values = [];
-
-  if (genre) {
-    values.push(genre);
-    conditions.push(`genre ILIKE $${values.length}`);
-  }
-
-  if (mood) {
-    values.push(mood);
-    conditions.push(`mood ILIKE $${values.length}`);
-  }
-
   const recommendationLimit = Math.min(
     Math.max(parseInt(limit, 10) || 10, 1),
     50
   );
 
-  const whereClause =
-    conditions.length > 0
-      ? `WHERE ${conditions.join(" AND ")}`
-      : "";
+  // Retrieve candidate songs from PostgreSQL.
+  const result = await pool.query(`
+    SELECT
+      id,
+      title,
+      artist,
+      album,
+      genre,
+      mood,
+      tempo,
+      audio_url,
+      popularity
+    FROM songs
+    ORDER BY id
+  `);
 
-  values.push(recommendationLimit);
-
-  const result = await pool.query(
-    `
-      SELECT
-        id,
-        title,
-        artist,
-        album,
+  // Send songs to the Python ranking engine.
+  const response = await fetch(
+    process.env.RECOMMENDATION_ENGINE_URL ||
+      "http://127.0.0.1:8000/rank",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        songs: result.rows,
         genre,
         mood,
-        tempo,
-        audio_url
-      FROM songs
-      ${whereClause}
-      ORDER BY RANDOM()
-      LIMIT $${values.length}
-    `,
-    values
+        limit: recommendationLimit,
+      }),
+      signal: AbortSignal.timeout(5000),
+    }
   );
 
-  return result.rows;
+  if (!response.ok) {
+    throw new Error(
+      `Recommendation engine returned ${response.status}`
+    );
+  }
+
+  const data = await response.json();
+
+  return data.recommendations;
 }
 
 module.exports = {
