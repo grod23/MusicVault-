@@ -8,9 +8,10 @@ const userRoutes = require("./routes/userRoutes");
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
 const recommendationRoutes = require("./routes/recommendationRoutes");
-
+const requestId = require("./middleware/requestId");
 const app = express();
 
+app.use(requestId);
 
 app.use(cors());
 
