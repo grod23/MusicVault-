@@ -56,7 +56,7 @@ describe("Recommendation integration flow", () => {
 
     expect(response.status).toBe(500);
     expect(response.body.error).toBe(
-      "Recommendation service unavailable"
+      "Internal server error"
     );
   });
 });
