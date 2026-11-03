@@ -1,0 +1,217 @@
+
+/* =========================
+   MusicVault Liked Songs
+   ========================= */
+
+.liked-songs-page {
+  min-height: 100%;
+  color: white;
+  background: #171321;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Playlist Header */
+
+.liked-songs-header {
+  display: flex;
+  align-items: flex-end;
+  gap: 45px;
+  padding: 40px 50px 38px;
+
+  background: linear-gradient(
+    135deg,
+    #6842c2 0%,
+    #432a80 55%,
+    #292039 100%
+  );
+}
+
+.liked-songs-heart {
+  font-size: 100px;
+  color: white;
+  line-height: 1;
+
+  position: relative;
+  top: -25px;        /* Moves heart UP */
+  left: 0px;         /* Moves heart LEFT or RIGHT */
+}
+
+.liked-songs-header-info {
+  min-width: 0;
+}
+
+.liked-songs-type {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.liked-songs-header-info h1 {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  margin: 10px 0 16px;
+}
+
+.liked-songs-header-info p {
+  font-size: 14px;
+  color: #e3dcef;
+  margin: 0;
+}
+
+/* Playlist Body */
+
+.liked-songs-content {
+  padding: 24px 30px;
+  background: linear-gradient(
+    180deg,
+    rgba(80, 52, 135, 0.22),
+    rgba(23, 19, 33, 1) 220px
+  );
+}
+
+.liked-songs-actions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.liked-songs-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 55px;
+  height: 55px;
+
+  border: none;
+  border-radius: 50%;
+  background: #1ed760;
+  color: black;
+  cursor: pointer;
+}
+
+.liked-songs-play:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Song Table */
+
+.liked-song-row {
+  display: grid;
+  grid-template-columns:
+    30px
+    minmax(180px, 2fr)
+    minmax(120px, 1.5fr)
+    minmax(150px, 1.5fr)
+    55px;
+
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 5px;
+}
+
+.liked-song-table-header {
+  color: #b3b3b3;
+  font-size: 13px;
+  border-bottom: 1px solid #45404e;
+  border-radius: 0;
+  margin-bottom: 8px;
+}
+
+.liked-song-time-heading {
+  display: flex;
+  justify-content: center;
+}
+
+.liked-songs-list .liked-song-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.liked-song-number,
+.liked-song-album,
+.liked-song-artist,
+.liked-song-duration {
+  color: #b3b3b3;
+  font-size: 13px;
+}
+
+.liked-song-title-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.liked-song-cover {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #302742;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.liked-song-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.liked-song-cover-fallback {
+  color: #b3a7d2;
+}
+
+.liked-song-title {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.liked-song-album,
+.liked-song-artist {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.liked-song-duration {
+  text-align: center;
+}
+
+/* Smaller Screens */
+
+@media (max-width: 950px) {
+  .liked-songs-header {
+    padding: 25px 20px;
+  }
+
+  .liked-songs-artwork {
+    width: 125px;
+    height: 125px;
+    transform: translateY(-15px);
+  }
+
+  .liked-songs-content {
+    padding: 20px 15px;
+    overflow-x: auto;
+  }
+
+  .liked-song-row {
+    min-width: 650px;
+  }
+}
