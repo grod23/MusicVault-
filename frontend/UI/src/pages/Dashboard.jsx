@@ -7,13 +7,6 @@ import LikedSongs from "../Dashcomponents/LikedSongs";
 function Dashboard() {
   const [activeSection, setActiveSection] = useState("home");
 
-  const sectionTitles = {
-    home: "",
-    liked: "",
-    library: "",
-    playlists: "",
-  };
-
   return (
     <div className="dashboard-layout">
       <Header />
