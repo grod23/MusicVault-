@@ -83,7 +83,26 @@ if (!email || !password) {
         ),
       });
     }
+// Test unauthorized profile UPDATE
 
+const otherUserId = process.env.RLS_OTHER_USER_ID;
+
+if (!otherUserId) {
+  console.error("Missing RLS_OTHER_USER_ID.");
+  process.exitCode = 1;
+} else {
+  const { data, error } = await supabase
+    .from("Music Vault")
+    .update({ username: "RLS_SECURITY_TEST" })
+    .eq("id", otherUserId)
+    .select("id");
+
+  console.log("Cross-user UPDATE result:", {
+    error: error?.message ?? null,
+    rowsUpdated: data?.length ?? 0,
+    blocked: !error && data?.length === 0,
+  });
+}
     await supabase.auth.signOut();
   }
 }
