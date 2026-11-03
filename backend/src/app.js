@@ -8,14 +8,13 @@ const userRoutes = require("./routes/userRoutes");
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
 const recommendationRoutes = require("./routes/recommendationRoutes");
+const securityLogger = require("./middleware/securityLogger");
 
 const app = express();
 
-
 app.use(cors());
-
 app.use(express.json());
-
+app.use(securityLogger);
 
 app.use(
   session({
