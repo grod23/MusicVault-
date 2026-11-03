@@ -1,8 +1,8 @@
 function errorHandler(err, req, res, next) {
   const statusCode =
     Number.isInteger(err.status) &&
-      err.status >= 400 &&
-      err.status <= 599
+    err.status >= 400 &&
+    err.status <= 599
       ? err.status
       : 500;
 
