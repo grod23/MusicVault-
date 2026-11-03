@@ -97,3 +97,25 @@ jobs:
       - name: Run Python recommendation tests
         working-directory: recommendation-engine
         run: python -m pytest -v
+  # Sprint 4 - SOC 2 CC7.1 Vulnerability Detection
+
+  dependency-security-scan:
+    name: Frontend Dependency Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.22.2
+
+      - name: Install frontend dependencies
+        working-directory: frontend/UI
+        run: npm ci
+
+      - name: Scan frontend dependencies for vulnerabilities
+        working-directory: frontend/UI
+        run: npm audit --audit-level=high

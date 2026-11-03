@@ -8,9 +8,10 @@ const userRoutes = require("./routes/userRoutes");
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
 const recommendationRoutes = require("./routes/recommendationRoutes");
-
+const requestId = require("./middleware/requestId");
 const app = express();
 
+app.use(requestId);
 
 app.use(cors());
 
@@ -38,7 +39,10 @@ app.use(
 
 app.get("/api/v1/health", (req, res) => {
   res.status(200).json({
-    status: "ok"
+    status: "ok",
+    service: "musicvault-backend",
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
   });
 });
 
