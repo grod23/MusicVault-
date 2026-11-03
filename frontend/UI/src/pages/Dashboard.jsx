@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "../Dashcomponents/Header";
 import Sidebar from "../Dashcomponents/Sidebar";
+import MusicPlayer from "../Dashcomponents/MusicPlayer";
 
 function Dashboard() {
   const [activeSection, setActiveSection] = useState("home");
@@ -28,6 +29,7 @@ function Dashboard() {
 
         </main>
       </div>
+      <MusicPlayer />
     </div>
   );
 }
