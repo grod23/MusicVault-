@@ -1,3 +1,4 @@
+
 const request = require("supertest");
 
 jest.mock(
@@ -299,6 +300,29 @@ describe("Spotify authentication routes", () => {
         message:
           "Spotify token exchange failed"
       });
+    }
+  );
+
+  // Sprint 4 SOC 2 CC6.7 Security Assessment
+  test(
+    "SECURITY: callback rejects missing OAuth state",
+    async () => {
+      exchangeCodeForTokens.mockResolvedValue({
+        access_token: "dummy-access-token",
+        refresh_token: "dummy-refresh-token",
+        expires_in: 3600
+      });
+
+      const response = await request(app)
+        .get("/api/auth/spotify/callback")
+        .query({
+          code: "dummy-authorization-code"
+        });
+
+      expect(response.status).toBe(400);
+
+      expect(exchangeCodeForTokens)
+        .not.toHaveBeenCalled();
     }
   );
 });
