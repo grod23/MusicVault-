@@ -38,7 +38,10 @@ app.use(
 
 app.get("/api/v1/health", (req, res) => {
   res.status(200).json({
-    status: "ok"
+    status: "ok",
+    service: "musicvault-backend",
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
   });
 });
 
