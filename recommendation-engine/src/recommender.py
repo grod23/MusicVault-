@@ -5,7 +5,7 @@ def get_recommendations(songs, genre=None, mood=None, limit=10):
 
     Genre match: +60 points
     Mood match: +30 points
-    Popularity: 0-10 points
+    Popularity: 0-10 points (defaults to 0 if unavailable)
     """
 
     if not isinstance(limit, int) or isinstance(limit, bool):
@@ -34,9 +34,10 @@ def get_recommendations(songs, genre=None, mood=None, limit=10):
 
         seen_ids.add(song_id)
 
-        song_genre = song["genre"].strip().lower()
-        song_mood = song["mood"].strip().lower()
-        popularity = song["popularity"]
+        # Handle missing or NULL database values
+        song_genre = (song.get("genre") or "").strip().lower()
+        song_mood = (song.get("mood") or "").strip().lower()
+        popularity = song.get("popularity") or 0
 
         score = 0
 
@@ -46,7 +47,7 @@ def get_recommendations(songs, genre=None, mood=None, limit=10):
         if mood and song_mood == mood:
             score += 30
 
-        # Exclude songs that match neither preference.
+        # Exclude songs that match neither preference
         if (genre or mood) and score == 0:
             continue
 
