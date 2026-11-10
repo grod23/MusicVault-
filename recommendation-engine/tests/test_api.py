@@ -54,6 +54,7 @@ def test_empty_results():
         "total": 0,
     }
 
+
 def test_rank_recommendations_success():
     payload = {
         "songs": [
@@ -87,8 +88,8 @@ def test_rank_recommendations_success():
 
     assert data["total"] == 2
     assert data["recommendations"][0]["title"] == "Believer"
-    assert data["recommendations"][0]["score"] == 99.0
-    assert data["recommendations"][1]["score"] == 68.5
+    assert data["recommendations"][0]["score"] == 91.0
+    assert data["recommendations"][1]["score"] == 61.5
 
 
 def test_rank_recommendations_empty_songs():
@@ -114,3 +115,40 @@ def test_rank_recommendations_invalid_limit():
     )
 
     assert response.status_code == 422
+
+
+def test_rank_prioritizes_lesser_known_songs():
+    payload = {
+        "songs": [
+            {
+                "id": 1,
+                "title": "Popular Song",
+                "artist": "Artist A",
+                "genre": "rock",
+                "mood": "energetic",
+                "popularity": 95,
+            },
+            {
+                "id": 2,
+                "title": "Hidden Gem",
+                "artist": "Artist B",
+                "genre": "rock",
+                "mood": "energetic",
+                "popularity": 15,
+            },
+        ],
+        "genre": "rock",
+        "mood": "energetic",
+        "limit": 5,
+    }
+
+    response = client.post("/rank", json=payload)
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["total"] == 2
+    assert data["recommendations"][0]["title"] == "Hidden Gem"
+    assert data["recommendations"][0]["score"] == 98.5
+    assert data["recommendations"][1]["score"] == 90.5
