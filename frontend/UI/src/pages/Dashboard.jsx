@@ -2,16 +2,10 @@ import { useState } from "react";
 import Header from "../Dashcomponents/Header";
 import Sidebar from "../Dashcomponents/Sidebar";
 import MusicPlayer from "../Dashcomponents/MusicPlayer";
+import LikedSongs from "../Dashcomponents/LikedSongs";
 
 function Dashboard() {
   const [activeSection, setActiveSection] = useState("home");
-
-  const sectionTitles = {
-    home: "",
-    liked: "",
-    library: "",
-    playlists: "",
-  };
 
   return (
     <div className="dashboard-layout">
@@ -24,9 +18,10 @@ function Dashboard() {
         />
 
         <main className="dashboard-main">
-          <h1>{sectionTitles[activeSection]}</h1>
-
-
+  {activeSection === "liked" && <LikedSongs />}
+  {activeSection === "home" && <h1>Home</h1>}
+  {activeSection === "library" && <h1>Your Library</h1>}
+  {activeSection === "playlists" && <h1>Playlists</h1>}
         </main>
       </div>
       <MusicPlayer />
