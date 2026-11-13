@@ -1,3 +1,4 @@
+
 const pool = require("../config/database");
 
 async function getSongs({
@@ -135,3 +136,4 @@ module.exports = {
   getSongById,
   getGlobalTop100,
 };
+
