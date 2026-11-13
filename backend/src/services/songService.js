@@ -64,7 +64,8 @@ async function getSongs({
         genre,
         mood,
         tempo,
-        audio_url
+        audio_url,
+        cover_url
       FROM songs
       ${whereClause}
       ORDER BY id ASC
@@ -96,7 +97,8 @@ async function getSongById(songId) {
         genre,
         mood,
         tempo,
-        audio_url
+        audio_url,
+        cover_url
       FROM songs
       WHERE id = $1
     `,
@@ -117,7 +119,8 @@ async function getGlobalTop100() {
       s.genre,
       s.mood,
       s.tempo,
-      s.audio_url
+      s.audio_url,
+      s.cover_url
     FROM global_top_100 gt
     JOIN songs s ON gt.song_id = s.id
     ORDER BY gt.rank ASC
@@ -132,3 +135,4 @@ module.exports = {
   getSongById,
   getGlobalTop100,
 };
+

@@ -18,7 +18,18 @@ async function getSongs(req, res, next) {
 
 async function getSongById(req, res, next) {
   try {
-    const song = await songService.getSongById(req.params.songId);
+    const songId = req.params.songId;
+
+    if (
+      !/^[1-9]\d*$/.test(songId) ||
+      !Number.isSafeInteger(Number(songId))
+    ) {
+      return res.status(400).json({
+        error: "songId must be a positive integer",
+      });
+    }
+
+    const song = await songService.getSongById(songId);
 
     if (!song) {
       return res.status(404).json({
