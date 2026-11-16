@@ -1,127 +1,75 @@
-
 /* =========================
-   MusicVault Modern Liked Songs
+   MusicVault Liked Songs
+   (list styling mirrors Browse)
    ========================= */
 
-.modern-liked-page {
-  min-height: 100%;
-  box-sizing: border-box;
-  padding: 30px;
-
-  background: #151126;
-  color: white;
-  border-radius: 12px;
-}
-
-/* HEADER */
-
-.modern-liked-header {
+.liked-heading {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 18px;
 }
 
-.modern-liked-heading h1 {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-
-  font-size: clamp(30px, 4vw, 46px);
-  font-weight: 750;
-  margin: 0 0 10px;
-  letter-spacing: -1px;
-}
-
-.modern-liked-heart {
-  color: #b79aff;
-  font-size: 36px;
-}
-
-.modern-liked-heading p {
-  color: #b4a7cf;
-  font-size: 14px;
+.liked-heading h1 {
   margin: 0;
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 750;
+  letter-spacing: -0.5px;
 }
 
-.modern-liked-play {
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 50%;
-  background: #754de0;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.modern-liked-play:hover:not(:disabled) {
-  transform: scale(1.07);
-}
-
-.modern-liked-play:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
+.liked-heading span {
+  color: #9fb3b6;
+  font-size: 15px;
 }
 
 /* TOOLBAR */
 
-.modern-liked-toolbar {
+.liked-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
-.modern-liked-filters {
+.liked-filters {
   display: flex;
   gap: 10px;
 }
 
-.modern-filter {
+.liked-filter {
   padding: 9px 17px;
   border: none;
   border-radius: 25px;
-
-  background: #241b3d;
-  color: #b8acc9;
+  background: #0d252d;
+  color: #c3d0d2;
   font-size: 13px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.modern-filter:hover {
-  background: #3a2b59;
+.liked-filter:hover {
+  background: #12343b;
   color: white;
 }
 
-.modern-filter.selected {
-  background: #50358b;
-  color: white;
+.liked-filter.selected {
+  background: rgba(224, 180, 92, 0.25);
+  color: #f0c97a;
 }
 
-.modern-liked-search {
+.liked-search {
   display: flex;
   align-items: center;
   gap: 9px;
-
   padding: 9px 12px;
-  border: 1px solid #45365d;
+  border: 1px solid #1b3f46;
   border-radius: 20px;
-
-  background: #211a35;
-  color: #b8acc9;
+  background: #0a1d24;
+  color: #c3d0d2;
 }
 
-.modern-liked-search input {
+.liked-search input {
   width: 160px;
   border: none;
   outline: none;
@@ -130,159 +78,155 @@
   font-size: 13px;
 }
 
-.modern-liked-search input::placeholder {
-  color: #998eae;
+.liked-search input::placeholder {
+  color: #9fb3b6;
 }
 
-/* SONG CARDS */
+/* LIST */
 
-.modern-liked-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.liked-list {
+  padding: 0 12px;
+  border: 1px solid #1b3f46;
+  border-radius: 12px;
+  background: rgba(10, 29, 36, 0.7);
 }
 
-.modern-song-card {
+.liked-track {
   display: flex;
   align-items: center;
-  gap: 16px;
-
-  padding: 12px 16px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-
-  background: #241b38;
-  transition: background 0.2s, border-color 0.2s;
+  gap: 18px;
+  padding: 6px 14px 6px 8px;
+  border-bottom: 1px solid #1b3f46;
+  transition: background 0.2s;
 }
 
-.modern-song-card:hover {
-  background: #302447;
-  border-color: #493467;
+.liked-track:last-child {
+  border-bottom: none;
 }
 
-.modern-song-cover {
-  width: 50px;
-  height: 50px;
+.liked-track:hover {
+  background: rgba(45, 212, 191, 0.06);
+}
+
+.liked-number {
+  width: 28px;
   flex-shrink: 0;
+  text-align: center;
+  color: #e0b45c;
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
 
+.liked-cover {
+  position: relative;
+  width: 68px;
+  height: 46px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-
-  background: #42335e;
-  border-radius: 7px;
+  border-radius: 4px;
+  background: #12343b;
   overflow: hidden;
 }
 
-.modern-cover-fallback {
-  color: #c8b1ff;
+.liked-cover-fallback {
+  color: #e0b45c;
 }
 
-.modern-song-cover img {
+.liked-cover img {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.modern-song-info {
+.liked-info {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-width: 0;
-  gap: 6px;
+  gap: 3px;
 }
 
-.modern-song-title {
-  color: white;
-  font-size: 15px;
+.liked-title {
+  color: #ffffff;
+  font-size: 17px;
   font-weight: 600;
-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.modern-song-details {
-  color: #aea2c4;
-  font-size: 13px;
-
+.liked-artist {
+  color: #9fb3b6;
+  font-size: 14px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.modern-song-duration {
-  color: #b8acc9;
-  font-size: 13px;
+.liked-duration {
   flex-shrink: 0;
+  color: #c3d0d2;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
 }
 
-.modern-song-like {
+.liked-like {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  padding: 5px;
+  margin-left: 24px;
+  padding: 4px;
   border: none;
   background: transparent;
-  color: #a78bfa;
+  color: #e0b45c;
   cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
 }
 
-.modern-song-like:hover {
-  color: #d3c1ff;
-  transform: scale(1.08);
+.liked-like:hover {
+  color: #f0c97a;
+  transform: scale(1.12);
 }
 
-.modern-liked-empty {
+.liked-like:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 2px;
+}
+
+.liked-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   padding: 60px 20px;
   gap: 10px;
-  color: #a99abd;
+  color: #9fb3b6;
 }
 
 /* RESPONSIVE */
 
 @media (max-width: 850px) {
-  .modern-liked-page {
-    padding: 20px;
-  }
-
-  .modern-liked-toolbar {
+  .liked-toolbar {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .modern-liked-search input {
+  .liked-search input {
     width: 100%;
   }
 }
 
-@media (max-width: 600px) {
-  .modern-song-card {
-    gap: 10px;
-    padding: 10px;
+@media (max-width: 700px) {
+  .liked-track {
+    gap: 12px;
   }
 
-  .modern-song-cover {
-    width: 42px;
-    height: 42px;
-  }
-
-  .modern-song-duration {
-    font-size: 12px;
-  }
-
-  .modern-liked-heading h1 {
-    font-size: 30px;
+  .liked-like {
+    margin-left: 6px;
   }
 }
-
