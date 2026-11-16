@@ -1,3 +1,4 @@
+
 import "./Sidebar.css";
 
 function Sidebar({ activeSection, onSectionChange }) {

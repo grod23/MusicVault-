@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import Header from "../Dashcomponents/Header";
@@ -57,6 +58,14 @@ function Dashboard() {
         ? previous.filter((songId) => songId !== id)
         : [...previous, id]
     );
+  };
+
+  const sectionTitles = {
+    home: "",
+    discover: "Discover Music",
+    liked: "",
+    library: "",
+    playlists: "",
   };
 
   return (
@@ -125,6 +134,7 @@ function Dashboard() {
           {activeSection === "playlists" && <h1>Playlists</h1>}
         </main>
       </div>
+
       <MusicPlayer />
     </div>
   );
