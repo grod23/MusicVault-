@@ -62,14 +62,6 @@ function Dashboard() {
     );
   };
 
-  const sectionTitles = {
-    home: "",
-    discover: "Discover Music",
-    liked: "",
-    library: "",
-    playlists: "",
-  };
-
   return (
     <div className="dashboard-layout">
       <Header />
