@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #090912;
+  background: #061318;
   color: white;
 }
 
@@ -12,22 +12,23 @@ body {
   justify-content: center;
   align-items: center;
   background:
-    radial-gradient(circle at 50% 40%, #1b123d 0%, #090912 55%);
+    radial-gradient(ellipse at 78% -10%, rgba(24, 120, 120, 0.4), transparent 55%),
+    #061318;
 }
 
 .login-card {
   width: 500px;
   padding: 45px 55px;
-  border: 1px solid #5942c7;
+  border: 1px solid #1b3f46;
   border-radius: 20px;
-  background: rgba(20, 18, 50, 0.75);
-  box-shadow: 0 0 35px rgba(100, 60, 255, 0.2);
+  background: rgba(10, 29, 36, 0.88);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   text-align: center;
 }
 
 .logo {
   font-size: 65px;
-  color: #8b5cf6;
+  color: #e0b45c;
   margin-bottom: 45px;
 }
 
@@ -39,7 +40,7 @@ body {
 .subtitle {
   margin-top: 8px;
   margin-bottom: 40px;
-  color: #aaa5d8;
+  color: #9fb3b6;
   font-size: 18px;
 }
 
@@ -51,10 +52,15 @@ body {
   align-items: center;
   gap: 15px;
 
-  border: 2px solid #5140b9;
+  border: 2px solid #1b3f46;
   border-radius: 30px;
 
-  background: rgba(30, 27, 65, 0.8);
+  background: rgba(10, 29, 36, 0.85);
+  transition: border-color 0.2s;
+}
+
+.input-box:focus-within {
+  border-color: #e0b45c;
 }
 
 .input-box span {
@@ -62,7 +68,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #aaa5e8;
+  color: #9fb3b6;
   font-size: 20px;
   flex-shrink: 0;
 }
@@ -79,7 +85,7 @@ body {
 }
 
 .input-box input::placeholder {
-  color: #aaa5c5;
+  color: #9fb3b6;
 }
 
 .eye {
@@ -93,7 +99,7 @@ body {
 
   margin: 10px 5px 30px;
 
-  color: #c4c0df;
+  color: #c3d0d2;
 }
 
 .options label {
@@ -105,20 +111,21 @@ body {
 .options input {
   width: 17px;
   height: 17px;
+  accent-color: #e0b45c;
 }
 
 .forgot-button {
   border: none;
   background: transparent;
-  color: #9b6cff;
+  color: #e0b45c;
 
   font-size: 15px;
   cursor: pointer;
 }
 
 .forgot-button:hover {
-  color: white;
-  text-shadow: 0 0 10px #9b6cff;
+  color: #f0c97a;
+  text-shadow: 0 0 10px rgba(224, 180, 92, 0.6);
 }
 
 .login-button,
@@ -136,31 +143,32 @@ body {
 
 .login-button {
   border: none;
-  color: white;
+  color: #1a1305;
 
   background: linear-gradient(
     90deg,
-    #6335f5,
-    #a56cff
+    #f0c97a,
+    #d19f43
   );
 
-  box-shadow: 0 0 20px rgba(120, 70, 255, 0.35);
+  box-shadow: 0 0 20px rgba(224, 180, 92, 0.3);
 
   margin-bottom: 20px;
 }
 
 .register-button {
-  border: 2px solid #654bd8;
+  border: 2px solid #8a6a2c;
   background: transparent;
-  color: white;
+  color: #f0c97a;
 }
 
 .login-button:hover {
-  box-shadow: 0 0 30px rgba(120, 70, 255, 0.6);
+  box-shadow: 0 0 30px rgba(224, 180, 92, 0.5);
 }
 
 .register-button:hover {
-  background: rgba(100, 70, 220, 0.15);
+  background: rgba(224, 180, 92, 0.12);
+  border-color: #e0b45c;
 }
 
 .dashboard-layout {
@@ -170,8 +178,8 @@ body {
 
   background: radial-gradient(
     circle at 50% 20%,
-    #1b123d 0%,
-    #090912 65%
+    #0c3a42 0%,
+    #061318 65%
   );
 
   color: white;
@@ -193,9 +201,13 @@ body {
   overflow-y: auto;
   padding: 30px;
 
-  background: rgba(20, 18, 50, 0.75);
-  border: 1px solid #39296d;
+  background: rgba(7, 24, 30, 0.95);
+  border: 1px solid #1b3f46;
   border-radius: 12px;
+}
+
+.form-message {
+  color: #f0c97a;
 }
 
 /* =========================
@@ -208,7 +220,7 @@ body {
 
 .home-description {
   margin: 0 0 35px;
-  color: #c4c0df;
+  color: #9fb3b6;
   font-size: 17px;
   line-height: 1.6;
 }
@@ -221,20 +233,20 @@ body {
 
   background: linear-gradient(
     90deg,
-    #6335f5,
-    #a56cff
+    #f0c97a,
+    #d19f43
   );
 
-  color: white;
+  color: #1a1305;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
 
-  box-shadow: 0 0 20px rgba(120, 70, 255, 0.35);
+  box-shadow: 0 0 20px rgba(224, 180, 92, 0.3);
 }
 
 .spotify-button:hover {
-  box-shadow: 0 0 30px rgba(120, 70, 255, 0.6);
+  box-shadow: 0 0 30px rgba(224, 180, 92, 0.5);
 }
 
 .home-divider {
@@ -242,7 +254,7 @@ body {
   align-items: center;
   gap: 15px;
   margin: 25px 0;
-  color: #aaa5d8;
+  color: #9fb3b6;
   font-size: 14px;
 }
 
@@ -251,5 +263,374 @@ body {
   content: "";
   flex: 1;
   height: 1px;
-  background: #5140b9;
+  background: #1b3f46;
+}
+
+.dashboard-layout {
+  background:
+    radial-gradient(
+      ellipse at 78% -10%,
+      rgba(24, 120, 120, 0.35),
+      transparent 55%
+    ),
+    #061318;
+  color: #f3f1ea;
+}
+ 
+.dashboard-main {
+  color: #f3f1ea;
+}
+
+
+.vault-home-page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+ 
+  background:
+    radial-gradient(
+      ellipse at 78% -10%,
+      rgba(24, 120, 120, 0.4),
+      transparent 55%
+    ),
+    #061318;
+  color: #f3f1ea;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+ 
+.vault-home-card {
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+ 
+  border: 1px solid #1b3f46;
+  border-radius: 14px;
+  background: rgba(10, 29, 36, 0.88);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+ 
+/* BANNER */
+ 
+.vault-home-banner {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+ 
+  border-bottom: 1px solid #8a6a2c;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(224, 180, 92, 0.22), transparent 60%),
+    linear-gradient(90deg, #08222a 0%, #0c3a42 50%, #08222a 100%);
+}
+ 
+.vault-home-door {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 280px;
+  height: 280px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+ 
+  background:
+    radial-gradient(circle, #0b2a30 0 24%, transparent 25%),
+    radial-gradient(circle, #123c44 0 38%, transparent 39%),
+    conic-gradient(
+      from 30deg,
+      #3a2a10,
+      #e0b45c,
+      #3a2a10,
+      #8a6a2c,
+      #e0b45c,
+      #3a2a10
+    );
+  box-shadow:
+    0 0 60px rgba(224, 180, 92, 0.3),
+    inset 0 0 40px rgba(0, 0, 0, 0.55);
+}
+ 
+.vault-home-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  transform: translate(-50%, -50%);
+ 
+  border: 4px solid #e0b45c;
+  border-radius: 50%;
+  background: #0a2128;
+  color: #e0b45c;
+  font-size: 46px;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.7);
+}
+ 
+/* BODY */
+ 
+.vault-home-body {
+  padding: 32px 36px 36px;
+}
+ 
+.vault-home-body h1 {
+  margin: 0 0 10px;
+  font-size: clamp(30px, 5vw, 38px);
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+ 
+.vault-home-subtitle {
+  margin: 0 0 14px;
+  color: #f0c97a;
+  font-size: 17px;
+  font-weight: 500;
+}
+ 
+.vault-home-description {
+  margin: 0 0 28px;
+  color: #9fb3b6;
+  font-size: 15px;
+  line-height: 1.6;
+}
+ 
+/* BUTTONS */
+ 
+.vault-home-spotify,
+.vault-home-register {
+  display: block;
+  width: 100%;
+  padding: 13px 22px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s, background 0.2s, border-color 0.2s;
+}
+ 
+.vault-home-spotify {
+  border: none;
+  background: linear-gradient(180deg, #f0c97a, #d19f43);
+  color: #1a1305;
+}
+ 
+.vault-home-spotify:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+ 
+.vault-home-register {
+  border: 1px solid #8a6a2c;
+  background: transparent;
+  color: #f0c97a;
+}
+ 
+.vault-home-register:hover {
+  background: rgba(224, 180, 92, 0.12);
+  border-color: #e0b45c;
+}
+ 
+.vault-home-spotify:focus-visible,
+.vault-home-register:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 3px;
+}
+ 
+/* DIVIDER */
+ 
+.vault-home-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0;
+  color: #9fb3b6;
+  font-size: 14px;
+}
+ 
+.vault-home-divider::before,
+.vault-home-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #1b3f46;
+}
+ 
+@media (max-width: 480px) {
+  .vault-home-body {
+    padding: 26px 22px 28px;
+  }
+ 
+  .vault-home-banner {
+    height: 140px;
+  }
+}
+
+/* =========================
+   MusicVault Home View
+   ========================= */
+
+/* BANNER */
+
+.home-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 190px;
+  padding: 0 40px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  border: 1px solid #8a6a2c;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #08222a 0%, #0c3a42 60%, #0a2c34 100%);
+}
+
+.home-banner h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 40px;
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+/* Vault image on the right, fading into the banner on the left */
+
+.home-banner-art {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 65%;
+
+  background: url("/images/home-vault.png") right center / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 40%);
+  mask-image: linear-gradient(to right, transparent, #000 40%);
+
+  pointer-events: none;
+}
+
+/* RECENTLY PLAYED */
+
+.home-recent {
+  margin-top: 28px;
+}
+
+.home-recent-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.home-recent-heading h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.home-recent-heading span {
+  color: #9fb3b6;
+  font-size: 15px;
+}
+
+.home-recent-list {
+  padding: 0 12px;
+  border: 1px solid #1b3f46;
+  border-radius: 12px;
+  background: rgba(10, 29, 36, 0.7);
+}
+
+.home-recent-track {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 14px 6px 8px;
+  border-bottom: 1px solid #1b3f46;
+  transition: background 0.2s;
+}
+
+.home-recent-track:last-child {
+  border-bottom: none;
+}
+
+.home-recent-track:hover {
+  background: rgba(45, 212, 191, 0.06);
+}
+
+.home-recent-cover {
+  width: 68px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background-size: cover;
+  background-position: center;
+}
+
+.home-recent-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 3px;
+}
+
+.home-recent-title {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.home-recent-artist {
+  color: #9fb3b6;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.home-recent-duration {
+  flex-shrink: 0;
+  color: #c3d0d2;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-recent-like {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 24px;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #e0b45c;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.home-recent-like:hover {
+  color: #f0c97a;
+  transform: scale(1.12);
+}
+
+@media (max-width: 700px) {
+  .home-banner {
+    min-height: 140px;
+    padding: 0 24px;
+  }
+
+  .home-banner-art {
+    width: 80%;
+  }
+
+  .home-recent-like {
+    margin-left: 6px;
+  }
 }

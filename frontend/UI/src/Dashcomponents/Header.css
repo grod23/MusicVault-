@@ -6,16 +6,26 @@
   min-height: 70px;
   padding: 0 24px;
   box-sizing: border-box;
-  background: #090912;
-  color: white;
+  background: #061318;
+  border-bottom: 1px solid #1b3f46;
+  color: #f3f1ea;
 }
 
 .header-logo {
   justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo-icon {
+  height: 46px;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .header-logo h2 {
-  color: #8b5cf6;
+  color: #e0b45c;
   font-size: 24px;
   margin: 0;
 }
@@ -27,16 +37,16 @@
   width: 100%;
   max-width: 450px;
   padding: 12px 16px;
-  border: 1px solid #5942c7;
+  border: 1px solid #1b3f46;
   border-radius: 30px;
-  background: rgba(30, 27, 65, 0.8);
+  background: rgba(10, 29, 36, 0.85);
   box-sizing: border-box;
 }
 
 .search-icon {
   margin-right: 12px;
   font-size: 22px;
-  color: #aaa5d8;
+  color: #9fb3b6;
 }
 
 .header-search input {
@@ -45,16 +55,16 @@
   background: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: #f3f1ea;
   font-size: 14px;
 }
 
 .header-search input::placeholder {
-  color: #aaa5c5;
+  color: #9fb3b6;
 }
 
 .header-search:focus-within {
-  outline: 2px solid #a56cff;
+  outline: 2px solid #e0b45c;
 }
 
 .header-profile {
@@ -62,17 +72,17 @@
 }
 
 .header-profile button {
-  background: #1e1b41;
-  border: 1px solid #5942c7;
+  background: #0a1d24;
+  border: 1px solid #1b3f46;
   border-radius: 50%;
   width: 42px;
   height: 42px;
-  color: #a56cff;
+  color: #e0b45c;
   font-size: 20px;
   cursor: pointer;
 }
 
 .header-profile button:hover {
-  background: #38246f;
+  background: #12343b;
   color: white;
 }

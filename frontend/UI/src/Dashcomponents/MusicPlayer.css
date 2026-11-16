@@ -1,4 +1,3 @@
-
 /* =========================
    MusicVault Music Player
    ========================= */
@@ -14,7 +13,8 @@
   padding: 0 16px;
   box-sizing: border-box;
 
-  background: #000000;
+  background: #040e11;
+  box-shadow: inset 0 2px 0 #2dd4bf, 0 -2px 14px rgba(45, 212, 191, 0.35);
   color: #ffffff;
   gap: 20px;
 }
@@ -39,8 +39,8 @@
   align-items: center;
   justify-content: center;
 
-  background: #282828;
-  color: #b3b3b3;
+  background: #12343b;
+  color: #9fb3b6;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -69,7 +69,7 @@
 }
 
 .player-song-artist {
-  color: #b3b3b3;
+  color: #9fb3b6;
   font-size: 12px;
 
   white-space: nowrap;
@@ -113,7 +113,7 @@
   border: none;
   background: transparent;
 
-  color: #b3b3b3;
+  color: #9fb3b6;
   cursor: pointer;
   transition: color 0.2s, transform 0.2s;
 }
@@ -124,7 +124,7 @@
 }
 
 .player-icon-button.active {
-  color: #1ed760;
+  color: #e0b45c;
 }
 
 .player-play-button {
@@ -137,8 +137,8 @@
   border: none;
   border-radius: 50%;
 
-  background: #ffffff;
-  color: #000000;
+  background: radial-gradient(circle at 35% 30%, #f5d78f, #d19f43 70%);
+  color: #1a1305;
   cursor: pointer;
 
   transition: transform 0.2s;
@@ -159,7 +159,7 @@
 
 .player-time {
   font-size: 12px;
-  color: #a7a7a7;
+  color: #c3d0d2;
   min-width: 35px;
   text-align: center;
   font-variant-numeric: tabular-nums;
@@ -181,20 +181,20 @@
 
   background: linear-gradient(
     to right,
-    #ffffff 0%,
-    #ffffff var(--slider-progress),
-    #4d4d4d var(--slider-progress),
-    #4d4d4d 100%
+    #e0b45c 0%,
+    #e0b45c var(--slider-progress),
+    #2a4448 var(--slider-progress),
+    #2a4448 100%
   );
 }
 
 .player-slider:hover {
   background: linear-gradient(
     to right,
-    #1ed760 0%,
-    #1ed760 var(--slider-progress),
-    #4d4d4d var(--slider-progress),
-    #4d4d4d 100%
+    #f0c97a 0%,
+    #f0c97a var(--slider-progress),
+    #2a4448 var(--slider-progress),
+    #2a4448 100%
   );
 }
 
@@ -206,7 +206,7 @@
   height: 12px;
   border-radius: 50%;
 
-  background: #ffffff;
+  background: #e0b45c;
   opacity: 0;
 }
 
@@ -220,7 +220,7 @@
   height: 12px;
   border: none;
   border-radius: 50%;
-  background: #ffffff;
+  background: #e0b45c;
   opacity: 0;
 }
 
@@ -246,12 +246,32 @@
   flex-shrink: 0;
 }
 
+/* Teal volume slider (color only) */
+.player-volume-slider,
+.player-volume-slider:hover {
+  background: linear-gradient(
+    to right,
+    #2dd4bf 0%,
+    #2dd4bf var(--slider-progress),
+    #2a4448 var(--slider-progress),
+    #2a4448 100%
+  );
+}
+
+.player-volume-slider::-webkit-slider-thumb {
+  background: #2dd4bf;
+}
+
+.player-volume-slider::-moz-range-thumb {
+  background: #2dd4bf;
+}
+
 /* Keyboard Accessibility */
 
 .player-icon-button:focus-visible,
 .player-play-button:focus-visible,
 .player-slider:focus-visible {
-  outline: 2px solid #1ed760;
+  outline: 2px solid #e0b45c;
   outline-offset: 4px;
 }
 
