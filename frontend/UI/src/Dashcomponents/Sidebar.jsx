@@ -1,12 +1,13 @@
 import "./Sidebar.css";
 
 function Sidebar({ activeSection, onSectionChange }) {
-  const sections = [
-    { id: "home", label: "Home", icon: "⌂" },
-    { id: "liked", label: "Liked Songs", icon: "♥" },
-    { id: "library", label: "Your Library", icon: "♫" },
-    { id: "playlists", label: "Playlists", icon: "☷" },
-  ];
+const sections = [
+  { id: "home", label: "Home", icon: "⌂" },
+  { id: "liked", label: "Liked Songs", icon: "♥" },
+  { id: "playlists", label: "Playlists", icon: "☷" },
+  { id: "browse", label: "Browse", icon: "♫" },
+  { id: "top", label: "Top Songs", icon: "★" },
+];
 
   return (
     <aside className="dashboard-sidebar">

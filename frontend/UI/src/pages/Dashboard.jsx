@@ -4,6 +4,8 @@ import Header from "../Dashcomponents/Header";
 import Sidebar from "../Dashcomponents/Sidebar";
 import MusicPlayer from "../Dashcomponents/MusicPlayer";
 import LikedSongs from "../Dashcomponents/LikedSongs";
+import Browse from "../Dashcomponents/Browse";
+import TopSongs from "../Dashcomponents/TopSongs";
 
 // Placeholder data until Spotify/Supabase integration.
 // Swap `cover` for an image URL later (the gradients are stand-ins).
@@ -118,7 +120,8 @@ function Dashboard() {
               </section>
             </>
           )}
-          {activeSection === "library" && <h1>Your Library</h1>}
+          {activeSection === "browse" && <Browse />}
+          {activeSection === "top" && <TopSongs />}
           {activeSection === "playlists" && <h1>Playlists</h1>}
         </main>
       </div>

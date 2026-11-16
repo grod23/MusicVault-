@@ -1,0 +1,132 @@
+/* =========================
+   MusicVault Browse
+   ========================= */
+
+.browse-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.browse-heading h1 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.browse-heading span {
+  color: #9fb3b6;
+  font-size: 15px;
+}
+
+.browse-list {
+  padding: 0 12px;
+  border: 1px solid #1b3f46;
+  border-radius: 12px;
+  background: rgba(10, 29, 36, 0.7);
+}
+
+.browse-track {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 14px 6px 8px;
+  border-bottom: 1px solid #1b3f46;
+  transition: background 0.2s;
+}
+
+.browse-track:last-child {
+  border-bottom: none;
+}
+
+.browse-track:hover {
+  background: rgba(45, 212, 191, 0.06);
+}
+
+/* Number heading to the left of the cover */
+
+.browse-number {
+  width: 28px;
+  flex-shrink: 0;
+  text-align: center;
+  color: #e0b45c;
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.browse-cover {
+  width: 68px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background-size: cover;
+  background-position: center;
+}
+
+.browse-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 3px;
+}
+
+.browse-title {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.browse-artist {
+  color: #9fb3b6;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.browse-duration {
+  flex-shrink: 0;
+  color: #c3d0d2;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.browse-like {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 24px;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #e0b45c;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.browse-like:hover {
+  color: #f0c97a;
+  transform: scale(1.12);
+}
+
+.browse-like:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .browse-track {
+    gap: 12px;
+  }
+
+  .browse-like {
+    margin-left: 6px;
+  }
+}

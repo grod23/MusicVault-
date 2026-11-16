@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  Play,
-  Heart,
-  Music2,
-  Search,
-} from "lucide-react";
+import { Heart, Music2, Search } from "lucide-react";
 
 import "./LikedSongs.css";
 
@@ -66,29 +61,18 @@ function LikedSongs() {
   const likedCount = songs.length - removedSongs.length;
 
   return (
-    <section className="modern-liked-page">
-
-      {/* HEADER */}
-      <div className="modern-liked-header">
-        <div className="modern-liked-heading">
-          <h1>
-            Liked Songs
-          </h1>
-
-          <p>
-            Your Library • {likedCount} songs
-          </p>
-        </div>
+    <section className="liked-page">
+      <div className="liked-heading">
+        <h1>Liked Songs</h1>
+        <span>{likedCount} tracks</span>
       </div>
 
       {/* FILTER AND SEARCH CONTROLS */}
-      <div className="modern-liked-toolbar">
-        <div className="modern-liked-filters">
+      <div className="liked-toolbar">
+        <div className="liked-filters">
           <button
             type="button"
-            className={`modern-filter ${
-              sortMode === "all" ? "selected" : ""
-            }`}
+            className={`liked-filter ${sortMode === "all" ? "selected" : ""}`}
             onClick={() => setSortMode("all")}
           >
             All Songs
@@ -96,16 +80,14 @@ function LikedSongs() {
 
           <button
             type="button"
-            className={`modern-filter ${
-              sortMode === "recent" ? "selected" : ""
-            }`}
+            className={`liked-filter ${sortMode === "recent" ? "selected" : ""}`}
             onClick={() => setSortMode("recent")}
           >
             Recently Added
           </button>
         </div>
 
-        <div className="modern-liked-search">
+        <div className="liked-search">
           <Search size={17} />
           <input
             type="text"
@@ -117,65 +99,54 @@ function LikedSongs() {
         </div>
       </div>
 
-      {/* SONG CARDS */}
-      <div className="modern-liked-list">
-        {visibleSongs.map((song) => (
-          <div className="modern-song-card" key={song.id}>
+      {/* SONG LIST */}
+      {visibleSongs.length > 0 ? (
+        <div className="liked-list">
+          {visibleSongs.map((song, index) => (
+            <div className="liked-track" key={song.id}>
+              <span className="liked-number">{index + 1}</span>
 
-            {/* Album Cover */}
-            <div className="modern-song-cover">
-              <Music2 size={24} className="modern-cover-fallback" />
+              <div className="liked-cover">
+                <Music2 size={20} className="liked-cover-fallback" />
 
-              {song.albumCover && (
-                <img
-                  src={song.albumCover}
-                  alt={`${song.album} cover`}
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                  }}
-                />
-              )}
+                {song.albumCover && (
+                  <img
+                    src={song.albumCover}
+                    alt={`${song.album} cover`}
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                    }}
+                  />
+                )}
+              </div>
+
+              <div className="liked-info">
+                <span className="liked-title">{song.title}</span>
+                <span className="liked-artist">
+                  {song.artist} • {song.album}
+                </span>
+              </div>
+
+              <span className="liked-duration">{song.duration}</span>
+
+              <button
+                type="button"
+                className="liked-like"
+                onClick={() => toggleLike(song.id)}
+                aria-label={`Unlike ${song.title}`}
+                title="Remove from liked songs"
+              >
+                <Heart size={20} fill="currentColor" />
+              </button>
             </div>
-
-            {/* Song Information */}
-            <div className="modern-song-info">
-              <span className="modern-song-title">
-                {song.title}
-              </span>
-
-              <span className="modern-song-details">
-                {song.artist} • {song.album}
-              </span>
-            </div>
-
-            {/* Duration */}
-            <span className="modern-song-duration">
-              {song.duration}
-            </span>
-
-            {/* Favorite Button */}
-            <button
-              type="button"
-              className="modern-song-like"
-              onClick={() => toggleLike(song.id)}
-              aria-label={`Unlike ${song.title}`}
-              title="Remove from liked songs"
-            >
-              <Heart
-                size={20}
-                fill="currentColor"
-              />
-            </button>
-          </div>
-        ))}
-
-        {visibleSongs.length === 0 && (
-          <div className="modern-liked-empty">
-            <Music2 size={36} />
-            <p>No liked songs found.</p>
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="liked-empty">
+          <Music2 size={36} />
+          <p>No liked songs found.</p>
+        </div>
+      )}
     </section>
   );
 }

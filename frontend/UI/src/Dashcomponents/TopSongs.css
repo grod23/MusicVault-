@@ -1,0 +1,130 @@
+/* =========================
+   MusicVault Top Songs
+   ========================= */
+
+.top-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.top-heading h1 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.top-heading span {
+  color: #9fb3b6;
+  font-size: 15px;
+}
+
+.top-list {
+  padding: 0 12px;
+  border: 1px solid #1b3f46;
+  border-radius: 12px;
+  background: rgba(10, 29, 36, 0.7);
+}
+
+.top-track {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 14px 6px 8px;
+  border-bottom: 1px solid #1b3f46;
+  transition: background 0.2s;
+}
+
+.top-track:last-child {
+  border-bottom: none;
+}
+
+.top-track:hover {
+  background: rgba(45, 212, 191, 0.06);
+}
+
+.top-number {
+  width: 28px;
+  flex-shrink: 0;
+  text-align: center;
+  color: #e0b45c;
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.top-cover {
+  width: 68px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background-size: cover;
+  background-position: center;
+}
+
+.top-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 3px;
+}
+
+.top-title {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.top-artist {
+  color: #9fb3b6;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.top-duration {
+  flex-shrink: 0;
+  color: #c3d0d2;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.top-like {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 24px;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #e0b45c;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.top-like:hover {
+  color: #f0c97a;
+  transform: scale(1.12);
+}
+
+.top-like:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .top-track {
+    gap: 12px;
+  }
+
+  .top-like {
+    margin-left: 6px;
+  }
+}
