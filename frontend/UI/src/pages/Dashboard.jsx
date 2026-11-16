@@ -5,6 +5,7 @@ import Header from "../Dashcomponents/Header";
 import Sidebar from "../Dashcomponents/Sidebar";
 import MusicPlayer from "../Dashcomponents/MusicPlayer";
 import DiscoverMusic from "./DiscoverMusic";
+import LikedSongs from "../Dashcomponents/LikedSongs";
 
 // Placeholder data until Spotify/Supabase integration.
 // Swap `cover` for an image URL later (the gradients are stand-ins).
