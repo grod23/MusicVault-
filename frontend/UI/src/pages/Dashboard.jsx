@@ -1,9 +1,10 @@
+
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import Header from "../Dashcomponents/Header";
 import Sidebar from "../Dashcomponents/Sidebar";
 import MusicPlayer from "../Dashcomponents/MusicPlayer";
-import LikedSongs from "../Dashcomponents/LikedSongs";
+import DiscoverMusic from "./DiscoverMusic";
 
 // Placeholder data until Spotify/Supabase integration.
 // Swap `cover` for an image URL later (the gradients are stand-ins).
@@ -55,6 +56,14 @@ function Dashboard() {
         ? previous.filter((songId) => songId !== id)
         : [...previous, id]
     );
+  };
+
+  const sectionTitles = {
+    home: "",
+    discover: "Discover Music",
+    liked: "",
+    library: "",
+    playlists: "",
   };
 
   return (
@@ -120,8 +129,14 @@ function Dashboard() {
           )}
           {activeSection === "library" && <h1>Your Library</h1>}
           {activeSection === "playlists" && <h1>Playlists</h1>}
+          <h1>{sectionTitles[activeSection]}</h1>
+
+          {activeSection === "discover" && (
+            <DiscoverMusic />
+          )}
         </main>
       </div>
+
       <MusicPlayer />
     </div>
   );

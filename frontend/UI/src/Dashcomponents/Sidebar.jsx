@@ -1,8 +1,10 @@
+
 import "./Sidebar.css";
 
 function Sidebar({ activeSection, onSectionChange }) {
   const sections = [
     { id: "home", label: "Home", icon: "⌂" },
+    { id: "discover", label: "Discover Music", icon: "♫" },
     { id: "liked", label: "Liked Songs", icon: "♥" },
     { id: "library", label: "Your Library", icon: "♫" },
     { id: "playlists", label: "Playlists", icon: "☷" },

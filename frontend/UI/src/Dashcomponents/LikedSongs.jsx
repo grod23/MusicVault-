@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  Play,
   Heart,
   Music2,
   Search,
