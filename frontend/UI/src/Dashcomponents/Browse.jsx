@@ -1,8 +1,13 @@
 import SongList from "./SongList";
 import "./Browse.css";
 
-function Browse() {
-  return <SongList mode="browse" />;
+function Browse({ onSelectSong }) {
+  return (
+    <SongList
+      mode="browse"
+      onSelectSong={onSelectSong}
+    />
+  );
 }
 
 export default Browse;
