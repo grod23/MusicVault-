@@ -5,32 +5,49 @@ const BACKEND_URL = "http://127.0.0.1:3001";
 function Home({ goToLogin }) {
   const [spotifyConnected, setSpotifyConnected] = useState(false);
   const [spotifyName, setSpotifyName] = useState("");
-  const [spotifyError, setSpotifyError] = useState("");
 
-  useEffect(() => {
+  const [spotifyError, setSpotifyError] = useState(() => {
     const params = new URLSearchParams(window.location.search);
 
-    if (params.get("spotify") === "denied") {
-      setSpotifyError("Spotify authorization was denied. Please try again.");
-    }
+    return params.get("spotify") === "denied"
+      ? "Spotify authorization was denied. Please try again."
+      : "";
+  });
 
-    fetch(`${BACKEND_URL}/api/auth/spotify/status`, {
-      credentials: "include"
-    })
-      .then((response) => {
+  useEffect(() => {
+    let cancelled = false;
+
+    async function checkSpotifyConnection() {
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/api/auth/spotify/status`,
+          {
+            credentials: "include"
+          }
+        );
+
         if (!response.ok) {
           throw new Error("Unable to check Spotify connection");
         }
 
-        return response.json();
-      })
-      .then((data) => {
-        setSpotifyConnected(data.connected);
-        setSpotifyName(data.displayName || "");
-      })
-      .catch(() => {
-        setSpotifyError("Unable to check Spotify connection status.");
-      });
+        const data = await response.json();
+
+        if (!cancelled) {
+          setSpotifyConnected(data.connected);
+          setSpotifyName(data.displayName || "");
+        }
+      } catch {
+        if (!cancelled) {
+          setSpotifyError("Unable to check Spotify connection status.");
+        }
+      }
+    }
+
+    checkSpotifyConnection();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   function handleSpotifyConnect() {
