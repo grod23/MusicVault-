@@ -1,4 +1,3 @@
-
 const request = require("supertest");
 
 jest.mock("../src/services/spotifyService", () => ({
@@ -31,6 +30,7 @@ describe("Spotify authentication routes", () => {
     const state = redirectUrl.searchParams.get("state");
 
     expect(state).toBeTruthy();
+
     return state;
   }
 
@@ -122,6 +122,7 @@ describe("Spotify authentication routes", () => {
       .expect(200);
 
     expect(exchangeCodeForTokens).toHaveBeenCalledTimes(1);
+
     expect(exchangeCodeForTokens)
       .toHaveBeenCalledWith("spotify-test-code");
 
@@ -131,6 +132,7 @@ describe("Spotify authentication routes", () => {
       expiresIn: 3600
     });
 
+    // Ensure sensitive tokens are not exposed in the response.
     expect(JSON.stringify(response.body))
       .not.toContain("fake-access-token");
 
@@ -149,7 +151,8 @@ describe("Spotify authentication routes", () => {
 
     expect(response.body).toEqual({
       success: false,
-      message: "Spotify authorization code was not provided"
+      error: "SPOTIFY_CODE_MISSING",
+      message: "Spotify authorization could not be completed. Please try again."
     });
 
     expect(exchangeCodeForTokens).not.toHaveBeenCalled();
@@ -169,7 +172,8 @@ describe("Spotify authentication routes", () => {
 
     expect(response.body).toEqual({
       success: false,
-      message: "Spotify authorization was denied"
+      error: "SPOTIFY_AUTH_DENIED",
+      message: "Spotify authorization was denied. Please try connecting again."
     });
 
     expect(exchangeCodeForTokens).not.toHaveBeenCalled();
@@ -189,15 +193,66 @@ describe("Spotify authentication routes", () => {
         code: "invalid-code",
         state
       })
-      .expect(500);
+      .expect(502);
 
     expect(exchangeCodeForTokens)
       .toHaveBeenCalledWith("invalid-code");
 
     expect(response.body).toEqual({
       success: false,
-      message: "Spotify token exchange failed"
+      error: "SPOTIFY_TOKEN_EXCHANGE_FAILED",
+      message: "Unable to connect to Spotify right now. Please try again later."
     });
+
+    // Ensure internal Spotify errors are not exposed.
+    expect(JSON.stringify(response.body))
+      .not.toContain("Spotify rejected authorization code");
+  });
+
+  test("callback rejects an empty authorization code", async () => {
+    const agent = request.agent(app);
+    const state = await beginSpotifyAuth(agent);
+
+    const response = await agent
+      .get("/api/auth/spotify/callback")
+      .query({
+        code: "",
+        state
+      })
+      .expect(400);
+
+    expect(response.body).toEqual({
+      success: false,
+      error: "SPOTIFY_CODE_MISSING",
+      message: "Spotify authorization could not be completed. Please try again."
+    });
+
+    expect(exchangeCodeForTokens).not.toHaveBeenCalled();
+  });
+
+  test("callback does not expose sensitive information on failure", async () => {
+    const agent = request.agent(app);
+    const state = await beginSpotifyAuth(agent);
+
+    exchangeCodeForTokens.mockRejectedValue(
+      new Error("secret-spotify-api-error")
+    );
+
+    const response = await agent
+      .get("/api/auth/spotify/callback")
+      .query({
+        code: "invalid-code",
+        state
+      })
+      .expect(502);
+
+    expect(response.body.success).toBe(false);
+
+    expect(response.body.error)
+      .toBe("SPOTIFY_TOKEN_EXCHANGE_FAILED");
+
+    expect(JSON.stringify(response.body))
+      .not.toContain("secret-spotify-api-error");
   });
 
   test("SECURITY: callback rejects missing OAuth state", async () => {
@@ -209,14 +264,23 @@ describe("Spotify authentication routes", () => {
 
     const response = await request(app)
       .get("/api/auth/spotify/callback")
-      .query({ code: "dummy-authorization-code" })
+      .query({
+        code: "dummy-authorization-code"
+      })
       .expect(400);
+
+    expect(response.body).toEqual({
+      success: false,
+      error: "SPOTIFY_INVALID_STATE",
+      message: "Invalid Spotify authentication state"
+    });
 
     expect(exchangeCodeForTokens).not.toHaveBeenCalled();
   });
 
   test("SECURITY: callback rejects invalid OAuth state", async () => {
     const agent = request.agent(app);
+
     await beginSpotifyAuth(agent);
 
     const response = await agent
@@ -226,6 +290,12 @@ describe("Spotify authentication routes", () => {
         state: "incorrect-oauth-state"
       })
       .expect(400);
+
+    expect(response.body).toEqual({
+      success: false,
+      error: "SPOTIFY_INVALID_STATE",
+      message: "Invalid Spotify authentication state"
+    });
 
     expect(exchangeCodeForTokens).not.toHaveBeenCalled();
   });
@@ -242,13 +312,22 @@ describe("Spotify authentication routes", () => {
 
     await agent
       .get("/api/auth/spotify/callback")
-      .query({ code: "first-code", state })
+      .query({
+        code: "first-code",
+        state
+      })
       .expect(200);
 
-    await agent
+    const response = await agent
       .get("/api/auth/spotify/callback")
-      .query({ code: "second-code", state })
+      .query({
+        code: "second-code",
+        state
+      })
       .expect(400);
+
+    expect(response.body.error)
+      .toBe("SPOTIFY_INVALID_STATE");
 
     expect(exchangeCodeForTokens).toHaveBeenCalledTimes(1);
   });
