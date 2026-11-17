@@ -1,20 +1,45 @@
 /*Forgotpassword.jsx*/
 import { useState } from "react";
+import { supabase } from "../lib/supabase";
 
 function ForgotPassword({ goToLogin }) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  function handleReset() {
-    if (!email) {
-      setMessage("Please enter your email.");
+async function handleReset() {
+  if (!email.trim()) {
+    setMessage("Please enter your email.");
+    return;
+  }
+
+  setMessage("");
+
+  try {
+    console.log("Starting password recovery request");
+
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      email.trim(),
+      {
+        redirectTo: `${window.location.origin}/`,      }
+    );
+
+    console.log("Recovery response:", {
+      success: !error,
+      errorCode: error?.code ?? null,
+    });
+
+    if (error) {
+      setMessage("Unable to send reset link. Please try again.");
       return;
     }
 
     setMessage("Password reset link sent!");
-
-    // Connect this to Supabase password reset
+  } catch (error) {
+    console.error("Password recovery request failed:", error);
+    setMessage("Unable to send reset link. Please try again.");
   }
+}
+
 
   return (
     <div className="page">
