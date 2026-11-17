@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import Header from "../Dashcomponents/Header";
@@ -48,7 +47,7 @@ const recentlyPlayed = [
   },
 ];
 
-// Generate a randomly ordered list using Fisher-Yates shuffle.
+// Fisher-Yates shuffle algorithm.
 function shuffleSongs(songs) {
   const shuffled = [...songs];
 
@@ -68,17 +67,13 @@ function Dashboard() {
   const [activeSection, setActiveSection] = useState("home");
   const [likedIds, setLikedIds] = useState([2]);
 
-  // Selected song and current song list.
+  // Currently selected song and song queue.
   const [selectedSong, setSelectedSong] = useState(null);
   const [songQueue, setSongQueue] = useState([]);
 
-  // Shuffle mode.
+  // Shuffle state and navigation history.
   const [isShuffled, setIsShuffled] = useState(false);
-
-  // Songs that have not yet been selected in this shuffle cycle.
   const [shuffleRemaining, setShuffleRemaining] = useState([]);
-
-  // History for the Previous button in shuffle mode.
   const [songHistory, setSongHistory] = useState([]);
 
   // Select a song from Browse or Global Top 100.
@@ -89,7 +84,6 @@ function Dashboard() {
     setSongQueue(newQueue);
     setSongHistory([]);
 
-    // The selected song counts as the first song of a new cycle.
     if (isShuffled) {
       const otherSongs = newQueue.filter(
         (song) => String(song.id) !== String(track.id)
@@ -101,7 +95,7 @@ function Dashboard() {
     }
   };
 
-  // Enable or disable shuffle mode.
+  // Turn shuffle on or off.
   const handleToggleShuffle = () => {
     const nextShuffled = !isShuffled;
 
@@ -109,11 +103,8 @@ function Dashboard() {
     setSongHistory([]);
 
     if (nextShuffled && selectedSong) {
-      // Start a fresh shuffle cycle.
-      // Exclude the song already selected.
       const otherSongs = songQueue.filter(
-        (song) =>
-          String(song.id) !== String(selectedSong.id)
+        (song) => String(song.id) !== String(selectedSong.id)
       );
 
       setShuffleRemaining(shuffleSongs(otherSongs));
@@ -122,15 +113,14 @@ function Dashboard() {
     }
   };
 
-  // Move to the next song.
+  // Select the next song.
   const handleNextSong = () => {
     if (!selectedSong || songQueue.length < 2) {
       return;
     }
 
     const currentIndex = songQueue.findIndex(
-      (song) =>
-        String(song.id) === String(selectedSong.id)
+      (song) => String(song.id) === String(selectedSong.id)
     );
 
     if (currentIndex === -1) {
@@ -142,27 +132,21 @@ function Dashboard() {
     if (isShuffled) {
       let remaining = shuffleRemaining;
 
-      // Every song in the current shuffle cycle has been selected.
-      // Start a new randomized cycle, avoiding an immediate repeat.
+      // Start a new cycle only after all songs are selected.
       if (remaining.length === 0) {
         const otherSongs = songQueue.filter(
-          (song) =>
-            String(song.id) !== String(selectedSong.id)
+          (song) => String(song.id) !== String(selectedSong.id)
         );
 
         remaining = shuffleSongs(otherSongs);
       }
 
-      // Take the next unplayed song from the shuffled queue.
       nextSong = remaining[0];
 
-      // Remove it so it cannot be selected again this cycle.
+      // Remove the selected song from the remaining queue.
       setShuffleRemaining(remaining.slice(1));
     } else {
-      // Normal sequential order.
-      const nextIndex =
-        (currentIndex + 1) % songQueue.length;
-
+      const nextIndex = (currentIndex + 1) % songQueue.length;
       nextSong = songQueue[nextIndex];
     }
 
@@ -176,29 +160,22 @@ function Dashboard() {
     }
   };
 
-  // Move to the previous song.
+  // Select the previous song.
   const handlePreviousSong = () => {
     if (!selectedSong || songQueue.length === 0) {
       return;
     }
 
-    // In shuffle mode, return to the previously selected song.
     if (isShuffled && songHistory.length > 0) {
-      const previousSong =
-        songHistory[songHistory.length - 1];
+      const previousSong = songHistory[songHistory.length - 1];
 
-      setSongHistory((previous) =>
-        previous.slice(0, -1)
-      );
-
+      setSongHistory((previous) => previous.slice(0, -1));
       setSelectedSong(previousSong);
       return;
     }
 
-    // Otherwise use the original song order.
     const currentIndex = songQueue.findIndex(
-      (song) =>
-        String(song.id) === String(selectedSong.id)
+      (song) => String(song.id) === String(selectedSong.id)
     );
 
     if (currentIndex === -1) {
@@ -206,8 +183,7 @@ function Dashboard() {
     }
 
     const previousIndex =
-      (currentIndex - 1 + songQueue.length) %
-      songQueue.length;
+      (currentIndex - 1 + songQueue.length) % songQueue.length;
 
     setSelectedSong(songQueue[previousIndex]);
   };
@@ -283,15 +259,14 @@ function Dashboard() {
                           type="button"
                           className="home-recent-like"
                           onClick={() => toggleLike(track.id)}
-                          aria-label={`${isLiked ? "Unlike" : "Like"
-                            } ${track.title}`}
+                          aria-label={`${
+                            isLiked ? "Unlike" : "Like"
+                          } ${track.title}`}
                           aria-pressed={isLiked}
                         >
                           <Heart
                             size={20}
-                            fill={
-                              isLiked ? "currentColor" : "none"
-                            }
+                            fill={isLiked ? "currentColor" : "none"}
                           />
                         </button>
                       </div>
@@ -324,6 +299,7 @@ function Dashboard() {
 
       {/* BOTTOM MUSIC PLAYER */}
       <MusicPlayer
+        key={`${selectedSong?.id ?? "none"}:${selectedSong?.audio_url ?? ""}`}
         selectedSong={selectedSong}
         onNext={handleNextSong}
         onPrevious={handlePreviousSong}
