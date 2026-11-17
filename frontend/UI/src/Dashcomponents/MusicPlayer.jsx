@@ -31,7 +31,7 @@ function MusicPlayer({
   const [volume, setVolume] = useState(70);
   const [previousVolume, setPreviousVolume] = useState(70);
 
-  // Currently selected song information.
+  // Selected song information.
   const song = {
     title: selectedSong?.title ?? "Select a song",
     artist:
@@ -40,29 +40,14 @@ function MusicPlayer({
     audioUrl: selectedSong?.audio_url ?? null,
   };
 
-  // Reset playback when switching songs.
-  useEffect(() => {
-    const audio = audioRef.current;
-
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-
-    setIsPlaying(false);
-    setProgress(0);
-    setDuration(0);
-    setIsLiked(false);
-  }, [selectedSong?.id, selectedSong?.audio_url]);
-
-  // Apply volume to audio.
+  // Apply volume to the actual audio element.
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
     }
   }, [volume]);
 
-  // Play/pause only when audio exists.
+  // Play or pause when an audio URL exists.
   const handlePlayPause = async () => {
     const audio = audioRef.current;
 
@@ -101,7 +86,7 @@ function MusicPlayer({
     }
   };
 
-  // Read duration when audio loads.
+  // Read duration when audio metadata loads.
   const handleLoadedMetadata = () => {
     const audio = audioRef.current;
 
@@ -120,7 +105,7 @@ function MusicPlayer({
     }
   };
 
-  // Convert seconds to M:SS format.
+  // Format time as M:SS.
   const formatTime = (seconds) => {
     const safeSeconds = Number.isFinite(seconds)
       ? Math.floor(seconds)
@@ -132,7 +117,7 @@ function MusicPlayer({
     return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
   };
 
-  // Mute and unmute.
+  // Mute or unmute.
   const toggleMute = () => {
     if (volume > 0) {
       setPreviousVolume(volume);
@@ -188,8 +173,9 @@ function MusicPlayer({
         </div>
 
         <button
-          className={`player-icon-button player-like ${isLiked ? "active" : ""
-            }`}
+          className={`player-icon-button player-like ${
+            isLiked ? "active" : ""
+          }`}
           onClick={() => setIsLiked(!isLiked)}
           aria-label="Like song"
           aria-pressed={isLiked}
@@ -210,8 +196,9 @@ function MusicPlayer({
 
           {/* SHUFFLE */}
           <button
-            className={`player-icon-button ${isShuffled ? "active" : ""
-              }`}
+            className={`player-icon-button ${
+              isShuffled ? "active" : ""
+            }`}
             onClick={onToggleShuffle}
             aria-label="Shuffle"
             aria-pressed={isShuffled}
@@ -256,8 +243,9 @@ function MusicPlayer({
 
           {/* REPEAT */}
           <button
-            className={`player-icon-button ${isRepeating ? "active" : ""
-              }`}
+            className={`player-icon-button ${
+              isRepeating ? "active" : ""
+            }`}
             onClick={() => setIsRepeating(!isRepeating)}
             aria-label="Repeat"
             aria-pressed={isRepeating}
