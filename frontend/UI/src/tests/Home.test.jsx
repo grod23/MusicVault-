@@ -38,11 +38,11 @@ describe("Homepage Rendering", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the primary homepage buttons", () => {
+  it("renders the primary homepage controls", () => {
     render(<Home />);
 
     expect(
-      screen.getByRole("button", { name: /connect to spotify/i })
+      screen.getByRole("link", { name: /connect to spotify/i })
     ).toBeInTheDocument();
 
     expect(
@@ -52,18 +52,17 @@ describe("Homepage Rendering", () => {
 });
 
 describe("Homepage Interactions", () => {
-  it("allows users to click Connect to Spotify", () => {
+  it("provides the correct Spotify authorization link", () => {
     render(<Home />);
 
-    const spotifyButton = screen.getByRole("button", {
+    const spotifyLink = screen.getByRole("link", {
       name: /connect to spotify/i,
     });
 
-    expect(spotifyButton).toBeEnabled();
-
-    fireEvent.click(spotifyButton);
-
-    expect(spotifyButton).toBeInTheDocument();
+    expect(spotifyLink).toHaveAttribute(
+      "href",
+      "http://127.0.0.1:3001/api/auth/spotify"
+    );
   });
 
   it("navigates to Login when Continue with Music Vault is clicked", () => {
