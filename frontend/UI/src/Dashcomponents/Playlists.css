@@ -1,0 +1,218 @@
+/* =========================
+   MusicVault Playlists
+   ========================= */
+
+.playlists-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.playlists-heading h1 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 40px);
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.playlists-heading span {
+  color: #9fb3b6;
+  font-size: 15px;
+}
+
+/* CREATE BUTTON */
+
+.playlists-create {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(180deg, #f0c97a, #d19f43);
+  color: #1a1305;
+  font-size: 15px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.playlists-create:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.playlists-create:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 3px;
+}
+
+/* GRID */
+
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.playlists-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.playlists-card:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 2px;
+}
+
+.playlists-card:hover {
+  background: rgba(45, 212, 191, 0.06);
+}
+
+/* Square icon: same ♫ glyph as the Browse tab, in gold */
+
+.playlists-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid #1b3f46;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #12343b, #0a1d24);
+  color: #e0b45c;
+  font-size: clamp(48px, 6vw, 72px);
+  line-height: 1;
+}
+
+.playlists-name {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* TOP BAR: back link (left) + delete (right) */
+
+.playlists-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.playlists-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #7a3a3a;
+  border-radius: 20px;
+  background: transparent;
+  color: #f7a7a7;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.playlists-delete:hover {
+  background: rgba(247, 167, 167, 0.12);
+  border-color: #f7a7a7;
+}
+
+.playlists-delete:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 2px;
+}
+
+/* RENAME */
+
+.playlists-title,
+.playlists-rename {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.playlists-title h1 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.playlists-rename-input {
+  min-width: 0;
+  width: min(100%, 420px);
+  padding: 4px 12px;
+  border: 2px solid #e0b45c;
+  border-radius: 10px;
+  outline: none;
+  background: #0a1d24;
+  color: #ffffff;
+  font-size: clamp(24px, 3.5vw, 34px);
+  font-weight: 750;
+}
+
+.playlists-rename-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 6px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #e0b45c;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+
+.playlists-rename-button:hover {
+  color: #f0c97a;
+  background: rgba(224, 180, 92, 0.12);
+}
+
+.playlists-rename-button:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 2px;
+}
+
+/* BACK BUTTON (playlist detail view) */
+
+.playlists-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  border: none;
+  background: transparent;
+  color: #9fb3b6;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.playlists-back:hover {
+  color: #f0c97a;
+}
+
+.playlists-back:focus-visible {
+  outline: 2px solid #e0b45c;
+  outline-offset: 2px;
+}
