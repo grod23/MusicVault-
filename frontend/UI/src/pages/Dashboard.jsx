@@ -8,6 +8,7 @@ import LikedSongs from "../Dashcomponents/LikedSongs";
 import Browse from "../Dashcomponents/Browse";
 import TopSongs from "../Dashcomponents/TopSongs";
 import DiscoverMusic from "./DiscoverMusic";
+import Playlists from "../Dashcomponents/Playlists";
 
 
 // Placeholder data until Spotify/Supabase integration.
@@ -125,7 +126,7 @@ function Dashboard() {
           )}
           {activeSection === "browse" && <Browse />}
           {activeSection === "top" && <TopSongs />}
-          {activeSection === "playlists" && <h1>Playlists</h1>}
+          {activeSection === "playlists" && <Playlists />}
           {activeSection === "discover" && <DiscoverMusic />}
         </main>
       </div>

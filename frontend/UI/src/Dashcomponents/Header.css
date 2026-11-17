@@ -1,4 +1,6 @@
 .dashboard-header {
+  position: relative;
+  z-index: 50;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
@@ -31,6 +33,7 @@
 }
 
 .header-search {
+  position: relative;
   display: flex;
   align-items: center;
   justify-self: center;
@@ -45,7 +48,7 @@
 
 .search-icon {
   margin-right: 12px;
-  font-size: 22px;
+  flex-shrink: 0;
   color: #9fb3b6;
 }
 
@@ -65,6 +68,90 @@
 
 .header-search:focus-within {
   outline: 2px solid #e0b45c;
+}
+
+/* SEARCH SUGGESTIONS DROPDOWN */
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  box-sizing: border-box;
+
+  border: 1px solid #1b3f46;
+  border-radius: 14px;
+  background: #0b2229;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.search-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.search-suggestion.active {
+  background: rgba(224, 180, 92, 0.16);
+}
+
+.search-suggestion-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background: #12343b;
+  color: #e0b45c;
+  overflow: hidden;
+}
+
+.search-suggestion-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.search-suggestion-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.search-suggestion-title {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.search-suggestion-artist {
+  color: #9fb3b6;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.search-suggestion-message {
+  padding: 12px 10px;
+  color: #9fb3b6;
+  font-size: 14px;
 }
 
 .header-profile {
