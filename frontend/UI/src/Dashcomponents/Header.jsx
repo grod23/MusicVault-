@@ -93,7 +93,6 @@ function Header({ onSelectSong }) {
         }
       } catch {
   setSuggestions([]);
-}
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
