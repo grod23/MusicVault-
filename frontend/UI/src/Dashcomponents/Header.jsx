@@ -40,10 +40,8 @@ function Header({ onSelectSong }) {
     const trimmed = query.trim();
 
     if (trimmed.length < 2) {
-      setSuggestions([]);
-      setLoading(false);
-      return;
-    }
+  return;
+}
 
     const controller = new AbortController();
 
