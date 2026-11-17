@@ -1,7 +1,7 @@
 
 function Home({ goToLogin }) {
   function handleSpotifyConnect() {
-    // Spotify integration will be connected later.
+    window.location.assign("http://127.0.0.1:3001/api/auth/spotify");
   }
 
   return (
