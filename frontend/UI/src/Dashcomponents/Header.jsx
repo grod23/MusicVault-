@@ -91,10 +91,9 @@ function Header({ onSelectSong }) {
           setSuggestions(matches);
           setActiveIndex(-1);
         }
-      } catch (err) {
-        if (!controller.signal.aborted) {
-          setSuggestions([]);
-        }
+      } catch {
+  setSuggestions([]);
+}
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
