@@ -1,4 +1,3 @@
-
 const crypto = require("crypto");
 
 const {
@@ -6,9 +5,7 @@ const {
 } = require("../services/spotifyService");
 
 function redirectToSpotify(req, res) {
-  const state = crypto
-    .randomBytes(16)
-    .toString("hex");
+  const state = crypto.randomBytes(16).toString("hex");
 
   // Associate OAuth state with the initiating session.
   req.session.spotifyOAuthState = state;
@@ -34,7 +31,8 @@ function redirectToSpotify(req, res) {
     if (err) {
       return res.status(500).json({
         success: false,
-        message: "Unable to start Spotify authentication"
+        error: "SPOTIFY_AUTH_START_FAILED",
+        message: "Unable to start Spotify authentication. Please try again."
       });
     }
 
@@ -50,6 +48,7 @@ async function spotifyCallback(req, res) {
   // Consume the state so it cannot be reused.
   delete req.session.spotifyOAuthState;
 
+  // Validate OAuth state to protect against CSRF attacks.
   if (
     typeof state !== "string" ||
     typeof expectedState !== "string" ||
@@ -61,33 +60,35 @@ async function spotifyCallback(req, res) {
   ) {
     return res.status(400).json({
       success: false,
+      error: "SPOTIFY_INVALID_STATE",
       message: "Invalid Spotify authentication state"
     });
   }
 
+  // Handle authorization denied by the user.
   if (error) {
     return res.status(400).json({
       success: false,
-      message: "Spotify authorization was denied"
+      error: "SPOTIFY_AUTH_DENIED",
+      message: "Spotify authorization was denied. Please try connecting again."
     });
   }
 
+  // Handle missing authorization code.
   if (typeof code !== "string" || !code) {
     return res.status(400).json({
       success: false,
-      message: "Spotify authorization code was not provided"
+      error: "SPOTIFY_CODE_MISSING",
+      message: "Spotify authorization could not be completed. Please try again."
     });
   }
 
   try {
     const tokenData = await exchangeCodeForTokens(code);
 
-    req.session.spotifyAccessToken =
-      tokenData.access_token;
-
-    req.session.spotifyRefreshToken =
-      tokenData.refresh_token;
-
+    // Store Spotify tokens securely in the session.
+    req.session.spotifyAccessToken = tokenData.access_token;
+    req.session.spotifyRefreshToken = tokenData.refresh_token;
     req.session.spotifyTokenExpiresAt =
       Date.now() + tokenData.expires_in * 1000;
 
@@ -97,11 +98,13 @@ async function spotifyCallback(req, res) {
       expiresIn: tokenData.expires_in
     });
   } catch (err) {
+    // Avoid exposing sensitive Spotify API details.
     console.error("Spotify token exchange failed");
 
-    return res.status(500).json({
+    return res.status(502).json({
       success: false,
-      message: "Spotify token exchange failed"
+      error: "SPOTIFY_TOKEN_EXCHANGE_FAILED",
+      message: "Unable to connect to Spotify right now. Please try again later."
     });
   }
 }
