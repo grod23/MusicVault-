@@ -33,7 +33,7 @@ function Home({ goToLogin }) {
         const data = await response.json();
 
         if (!cancelled) {
-          setSpotifyConnected(data.connected);
+          setSpotifyConnected(Boolean(data.connected));
           setSpotifyName(data.displayName || "");
         }
       } catch {
@@ -49,12 +49,6 @@ function Home({ goToLogin }) {
       cancelled = true;
     };
   }, []);
-
-  function handleSpotifyConnect() {
-    window.location.assign(
-      `${BACKEND_URL}/api/auth/spotify`
-    );
-  }
 
   return (
     <div className="vault-home-page">
@@ -79,7 +73,8 @@ function Home({ goToLogin }) {
 
           {spotifyConnected && (
             <p role="status" style={{ color: "#1DB954" }}>
-              Connected to Spotify — {spotifyName}
+              Connected to Spotify
+              {spotifyName ? ` — ${spotifyName}` : ""}
             </p>
           )}
 
@@ -89,14 +84,19 @@ function Home({ goToLogin }) {
             </p>
           )}
 
-          <button
+          <a
             className="vault-home-spotify"
-            onClick={handleSpotifyConnect}
+            href={`${BACKEND_URL}/api/auth/spotify`}
+            style={{
+              display: "block",
+              textAlign: "center",
+              textDecoration: "none"
+            }}
           >
             {spotifyConnected
               ? "Reconnect Spotify"
               : "Connect to Spotify"}
-          </button>
+          </a>
 
           <div className="vault-home-divider">
             <span>or</span>
@@ -104,6 +104,7 @@ function Home({ goToLogin }) {
 
           <button
             className="vault-home-register"
+            type="button"
             onClick={goToLogin}
           >
             Continue with Music Vault
