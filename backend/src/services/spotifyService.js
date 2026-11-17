@@ -6,41 +6,46 @@ async function exchangeCodeForTokens(code) {
   const body = new URLSearchParams({
     grant_type: "authorization_code",
     code,
-    redirect_uri:
-      process.env.SPOTIFY_REDIRECT_URI
+    redirect_uri: process.env.SPOTIFY_REDIRECT_URI
   });
 
   const response = await fetch(
     "https://accounts.spotify.com/api/token",
     {
       method: "POST",
-
       headers: {
-        Authorization:
-          `Basic ${credentials}`,
-
-        "Content-Type":
-          "application/x-www-form-urlencoded"
+        Authorization: `Basic ${credentials}`,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-
       body
     }
   );
 
   if (!response.ok) {
-    throw new Error(
-      "Spotify token exchange failed"
-    );
+    throw new Error("Spotify token exchange failed");
   }
 
   return response.json();
 }
 
-async function getTopTracks(
-  accessToken,
-  limit = 20,
-  offset = 0
-) {
+async function getSpotifyProfile(accessToken) {
+  const response = await fetch(
+    "https://api.spotify.com/v1/me",
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Unable to retrieve Spotify profile");
+  }
+
+  return response.json();
+}
+
+async function getTopTracks(accessToken, limit = 20, offset = 0) {
   const params = new URLSearchParams({
     limit: String(limit),
     offset: String(offset),
@@ -51,10 +56,8 @@ async function getTopTracks(
     `https://api.spotify.com/v1/me/top/tracks?${params}`,
     {
       method: "GET",
-
       headers: {
-        Authorization:
-          `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`
       }
     }
   );
@@ -69,19 +72,8 @@ async function getTopTracks(
 }
 
 async function getTop100Tracks(accessToken) {
-  const firstPage =
-    await getTopTracks(
-      accessToken,
-      50,
-      0
-    );
-
-  const secondPage =
-    await getTopTracks(
-      accessToken,
-      50,
-      50
-    );
+  const firstPage = await getTopTracks(accessToken, 50, 0);
+  const secondPage = await getTopTracks(accessToken, 50, 50);
 
   return [
     ...(firstPage.items || []),
@@ -91,6 +83,7 @@ async function getTop100Tracks(accessToken) {
 
 module.exports = {
   exchangeCodeForTokens,
+  getSpotifyProfile,
   getTopTracks,
   getTop100Tracks
 };

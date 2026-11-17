@@ -1,13 +1,58 @@
+import { useEffect, useState } from "react";
+
+const BACKEND_URL = "http://127.0.0.1:3001";
 
 function Home({ goToLogin }) {
-  function handleSpotifyConnect() {
-    window.location.assign("http://127.0.0.1:3001/api/auth/spotify");
-  }
+  const [spotifyConnected, setSpotifyConnected] = useState(false);
+  const [spotifyName, setSpotifyName] = useState("");
+
+  const [spotifyError, setSpotifyError] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    return params.get("spotify") === "denied"
+      ? "Spotify authorization was denied. Please try again."
+      : "";
+  });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function checkSpotifyConnection() {
+      try {
+        const response = await fetch(
+          `${BACKEND_URL}/api/auth/spotify/status`,
+          {
+            credentials: "include"
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Unable to check Spotify connection");
+        }
+
+        const data = await response.json();
+
+        if (!cancelled) {
+          setSpotifyConnected(Boolean(data.connected));
+          setSpotifyName(data.displayName || "");
+        }
+      } catch {
+        if (!cancelled) {
+          setSpotifyError("Unable to check Spotify connection status.");
+        }
+      }
+    }
+
+    checkSpotifyConnection();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="vault-home-page">
       <div className="vault-home-card">
-        {/* Decorative vault door banner (pure CSS) */}
         <div className="vault-home-banner" aria-hidden="true">
           <div className="vault-home-door">
             <div className="vault-home-core">♫</div>
@@ -26,12 +71,32 @@ function Home({ goToLogin }) {
             and lesser-known artists based on the music you already enjoy.
           </p>
 
-          <button
+          {spotifyConnected && (
+            <p role="status" style={{ color: "#1DB954" }}>
+              Connected to Spotify
+              {spotifyName ? ` — ${spotifyName}` : ""}
+            </p>
+          )}
+
+          {spotifyError && (
+            <p role="alert" style={{ color: "#ff6b6b" }}>
+              {spotifyError}
+            </p>
+          )}
+
+          <a
             className="vault-home-spotify"
-            onClick={handleSpotifyConnect}
+            href={`${BACKEND_URL}/api/auth/spotify`}
+            style={{
+              display: "block",
+              textAlign: "center",
+              textDecoration: "none"
+            }}
           >
-            Connect to Spotify
-          </button>
+            {spotifyConnected
+              ? "Reconnect Spotify"
+              : "Connect to Spotify"}
+          </a>
 
           <div className="vault-home-divider">
             <span>or</span>
@@ -39,6 +104,7 @@ function Home({ goToLogin }) {
 
           <button
             className="vault-home-register"
+            type="button"
             onClick={goToLogin}
           >
             Continue with Music Vault
