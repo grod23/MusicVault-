@@ -8,7 +8,7 @@ const API_BASE_URL = (
 
 const PAGE_SIZE = 20;
 
-function SongList({ mode }) {
+function SongList({ mode, onSelectSong }) {
   const isTop = mode === "top";
   const prefix = isTop ? "top" : "browse";
 
@@ -25,7 +25,7 @@ function SongList({ mode }) {
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [detailsError, setDetailsError] = useState("");
 
-  // Load the catalog or Global Top 100 from the backend.
+  // Load Music Catalog or Global Top 100 from backend.
   useEffect(() => {
     const controller = new AbortController();
 
@@ -78,7 +78,7 @@ function SongList({ mode }) {
     return () => controller.abort();
   }, [isTop, page]);
 
-  // Load individual song details when a title is clicked.
+  // Load individual song details.
   useEffect(() => {
     if (selectedId === null) return;
 
@@ -124,7 +124,7 @@ function SongList({ mode }) {
     return () => controller.abort();
   }, [selectedId]);
 
-  // Allow the details popup to close with Escape.
+  // Close song details popup with Escape.
   useEffect(() => {
     if (selectedId === null) return;
 
@@ -141,13 +141,19 @@ function SongList({ mode }) {
     };
   }, [selectedId]);
 
-  // Temporary visual likes, not yet saved to Supabase.
+  // Temporary likes, not saved to Supabase.
   const toggleLike = (id) => {
     setLikedIds((previous) =>
       previous.includes(id)
         ? previous.filter((songId) => songId !== id)
         : [...previous, id]
     );
+  };
+
+  // Select a song for the bottom player and open its details.
+  const handleSongSelect = (track) => {
+    onSelectSong?.(track, songs);
+    setSelectedId(String(track.id));
   };
 
   return (
@@ -203,7 +209,7 @@ function SongList({ mode }) {
                 <button
                   type="button"
                   className={`${prefix}-info songlist-details-link`}
-                  onClick={() => setSelectedId(id)}
+                  onClick={() => handleSongSelect(track)}
                   aria-label={`View details for ${track.title}`}
                 >
                   <span className={`${prefix}-title`}>
@@ -242,7 +248,7 @@ function SongList({ mode }) {
         </div>
       )}
 
-      {/* Pagination for the full catalog */}
+      {/* Pagination for Music Catalog */}
       {!isTop && !loading && !error && totalPages > 1 && (
         <div className="songlist-pagination">
           <button
@@ -267,7 +273,7 @@ function SongList({ mode }) {
         </div>
       )}
 
-      {/* Individual song details popup */}
+      {/* Song Details Popup */}
       {selectedId !== null && (
         <div
           className="songlist-backdrop"

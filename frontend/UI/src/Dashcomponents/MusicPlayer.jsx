@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Shuffle,
   SkipBack,
@@ -14,31 +14,110 @@ import {
 
 import "./MusicPlayer.css";
 
-function MusicPlayer() {
+function MusicPlayer({
+  selectedSong,
+  onNext,
+  onPrevious,
+  isShuffled,
+  onToggleShuffle,
+}) {
+  const audioRef = useRef(null);
+
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isShuffled, setIsShuffled] = useState(false);
   const [isRepeating, setIsRepeating] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [progress, setProgress] = useState(63);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(70);
   const [previousVolume, setPreviousVolume] = useState(70);
 
-  // Placeholder song information until Spotify integration
+  // Selected song information.
   const song = {
-    title: "Talk To Me",
-    artist: "Mina Okabe",
-    albumCover: "",
-    duration: 176,
+    title: selectedSong?.title ?? "Select a song",
+    artist:
+      selectedSong?.artist ?? "Browse Music or Global Top 100",
+    albumCover: selectedSong?.cover_url ?? "",
+    audioUrl: selectedSong?.audio_url ?? null,
   };
 
-  // Convert seconds into M:SS format
+  // Apply volume to the actual audio element.
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  // Play or pause when an audio URL exists.
+  const handlePlayPause = async () => {
+    const audio = audioRef.current;
+
+    if (!song.audioUrl || !audio) {
+      return;
+    }
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+      } catch (error) {
+        console.error("Unable to play audio:", error);
+        setIsPlaying(false);
+      }
+    } else {
+      audio.pause();
+    }
+  };
+
+  // Navigate to the next song.
+  const handleNext = () => {
+    onNext?.();
+  };
+
+  // Navigate to the previous song.
+  const handlePrevious = () => {
+    onPrevious?.();
+  };
+
+  // Update playback progress.
+  const handleTimeUpdate = () => {
+    const audio = audioRef.current;
+
+    if (audio) {
+      setProgress(audio.currentTime);
+    }
+  };
+
+  // Read duration when audio metadata loads.
+  const handleLoadedMetadata = () => {
+    const audio = audioRef.current;
+
+    if (audio && Number.isFinite(audio.duration)) {
+      setDuration(audio.duration);
+    }
+  };
+
+  // Seek through audio when available.
+  const handleProgressChange = (event) => {
+    const newTime = Number(event.target.value);
+
+    if (audioRef.current && song.audioUrl) {
+      audioRef.current.currentTime = newTime;
+      setProgress(newTime);
+    }
+  };
+
+  // Format time as M:SS.
   const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
+    const safeSeconds = Number.isFinite(seconds)
+      ? Math.floor(seconds)
+      : 0;
+
+    const minutes = Math.floor(safeSeconds / 60);
+    const remainingSeconds = safeSeconds % 60;
 
     return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
   };
 
+  // Mute or unmute.
   const toggleMute = () => {
     if (volume > 0) {
       setPreviousVolume(volume);
@@ -48,42 +127,79 @@ function MusicPlayer() {
     }
   };
 
+  const progressPercentage =
+    duration > 0 ? (progress / duration) * 100 : 0;
+
   return (
     <footer className="music-player">
 
-      {/* LEFT: Song Information */}
+      {/* AUDIO ELEMENT */}
+      <audio
+        ref={audioRef}
+        src={song.audioUrl || undefined}
+        loop={isRepeating}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false);
+          setProgress(0);
+        }}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onError={() => setIsPlaying(false)}
+      />
+
+      {/* LEFT: SONG INFORMATION */}
       <div className="player-song">
         <div className="player-album">
           {song.albumCover ? (
-            <img src={song.albumCover} alt="Album cover" />
+            <img
+              src={song.albumCover}
+              alt={`${song.title} album cover`}
+            />
           ) : (
             <Music2 size={28} />
           )}
         </div>
 
         <div className="player-song-info">
-          <span className="player-song-title">{song.title}</span>
-          <span className="player-song-artist">{song.artist}</span>
+          <span className="player-song-title">
+            {song.title}
+          </span>
+
+          <span className="player-song-artist">
+            {song.artist}
+          </span>
         </div>
 
         <button
-          className={`player-icon-button player-like ${isLiked ? "active" : ""}`}
+          className={`player-icon-button player-like ${
+            isLiked ? "active" : ""
+          }`}
           onClick={() => setIsLiked(!isLiked)}
           aria-label="Like song"
           aria-pressed={isLiked}
+          title="Preview like (not saved to account)"
           type="button"
         >
-          <Heart size={19} fill={isLiked ? "currentColor" : "none"} />
+          <Heart
+            size={19}
+            fill={isLiked ? "currentColor" : "none"}
+          />
         </button>
       </div>
 
-      {/* CENTER: Playback Controls */}
+      {/* CENTER: PLAYBACK CONTROLS */}
       <div className="player-center">
 
         <div className="player-controls">
+
+          {/* SHUFFLE */}
           <button
-            className={`player-icon-button ${isShuffled ? "active" : ""}`}
-            onClick={() => setIsShuffled(!isShuffled)}
+            className={`player-icon-button ${
+              isShuffled ? "active" : ""
+            }`}
+            onClick={onToggleShuffle}
             aria-label="Shuffle"
             aria-pressed={isShuffled}
             type="button"
@@ -91,17 +207,20 @@ function MusicPlayer() {
             <Shuffle size={19} />
           </button>
 
+          {/* PREVIOUS SONG */}
           <button
             className="player-icon-button"
+            onClick={handlePrevious}
             aria-label="Previous song"
             type="button"
           >
             <SkipBack size={21} fill="currentColor" />
           </button>
 
+          {/* PLAY / PAUSE */}
           <button
             className="player-play-button"
-            onClick={() => setIsPlaying(!isPlaying)}
+            onClick={handlePlayPause}
             aria-label={isPlaying ? "Pause" : "Play"}
             type="button"
           >
@@ -112,16 +231,21 @@ function MusicPlayer() {
             )}
           </button>
 
+          {/* NEXT SONG */}
           <button
             className="player-icon-button"
+            onClick={handleNext}
             aria-label="Next song"
             type="button"
           >
             <SkipForward size={21} fill="currentColor" />
           </button>
 
+          {/* REPEAT */}
           <button
-            className={`player-icon-button ${isRepeating ? "active" : ""}`}
+            className={`player-icon-button ${
+              isRepeating ? "active" : ""
+            }`}
             onClick={() => setIsRepeating(!isRepeating)}
             aria-label="Repeat"
             aria-pressed={isRepeating}
@@ -131,7 +255,7 @@ function MusicPlayer() {
           </button>
         </div>
 
-        {/* Song Progress Bar */}
+        {/* SONG PROGRESS BAR */}
         <div className="player-progress">
           <span className="player-time">
             {formatTime(progress)}
@@ -140,23 +264,24 @@ function MusicPlayer() {
           <input
             type="range"
             min="0"
-            max={song.duration}
+            max={duration || 1}
             value={progress}
-            onChange={(e) => setProgress(Number(e.target.value))}
+            onChange={handleProgressChange}
+            disabled={!song.audioUrl || duration === 0}
             className="player-slider"
             style={{
-              "--slider-progress": `${(progress / song.duration) * 100}%`,
+              "--slider-progress": `${progressPercentage}%`,
             }}
             aria-label="Song progress"
           />
 
           <span className="player-time">
-            {formatTime(song.duration)}
+            {formatTime(duration)}
           </span>
         </div>
       </div>
 
-      {/* RIGHT: Volume Controls */}
+      {/* RIGHT: VOLUME CONTROLS */}
       <div className="player-right">
         <button
           className="player-icon-button"
