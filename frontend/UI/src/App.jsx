@@ -12,38 +12,25 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 
 function App() {
-  const [page, setPage] = useState("home");
-  const [checkingRecovery, setCheckingRecovery] = useState(true);
+const [page, setPage] = useState(() => {
+  const hash = window.location.hash;
 
-  useEffect(() => {
-    const hash = window.location.hash;
+  return hash.includes("error=")
+    ? "forgot-password"
+    : "home";
+});
 
-    // Detect errors returned by Supabase recovery links.
-    if (hash.includes("error=")) {
-      setPage("forgot-password");
-      window.history.replaceState(
-        null,
-        "",
-        window.location.pathname
-      );
+useEffect(() => {
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((event) => {
+    if (event === "PASSWORD_RECOVERY") {
+      setPage("reset-password");
     }
+  });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
-        setPage("reset-password");
-      }
-    });
-
-    setCheckingRecovery(false);
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (checkingRecovery) {
-    return <p>Checking authentication...</p>;
-  }
+  return () => subscription.unsubscribe();
+}, []);
 
   if (page === "home") {
     return <Home goToLogin={() => setPage("login")} />;
